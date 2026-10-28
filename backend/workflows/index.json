@@ -1,0 +1,3491 @@
+{
+  "schema_version": 1,
+  "about": "Studio cards: one entry per API workflow. inputs[] maps form fields to node inputs (see backend/docker/handler.py for the input types). models and custom_nodes are derived by backend/tools/manifest.py sync.",
+  "categories": [
+    {
+      "id": "image",
+      "title": "Image"
+    },
+    {
+      "id": "edit",
+      "title": "Edit"
+    },
+    {
+      "id": "video",
+      "title": "Video"
+    },
+    {
+      "id": "talking",
+      "title": "Talking"
+    },
+    {
+      "id": "vfx",
+      "title": "VFX (LTX 2.5)"
+    },
+    {
+      "id": "character",
+      "title": "Character Swap (H3)"
+    },
+    {
+      "id": "instant",
+      "title": "Instant scene + sound"
+    },
+    {
+      "id": "upscale",
+      "title": "Upscale"
+    },
+    {
+      "id": "voice",
+      "title": "Voice"
+    },
+    {
+      "id": "music",
+      "title": "Music"
+    }
+  ],
+  "badge_labels": {
+    "speed": "Speed demo",
+    "nvidia-rtx": "NVIDIA RTX"
+  },
+  "profiles": [
+    {
+      "id": "all",
+      "title": "All workflows",
+      "summary": "Every card, including the NVIDIA RTX upscalers (NVIDIA's free proprietary SDK)."
+    },
+    {
+      "id": "open-weights",
+      "title": "100% open weights",
+      "summary": "Open-weights models and open-source code only: the NVIDIA RTX cards are hidden, and RTX Video Super Resolution inside other workflows becomes a lanczos resize.",
+      "exclude_badges": [
+        "nvidia-rtx"
+      ],
+      "replace_nodes": {
+        "RTXVideoSuperResolution": "lanczos"
+      }
+    }
+  ],
+  "workflows": [
+    {
+      "id": "qwen-image-t2i",
+      "title": "Qwen Image 2.1",
+      "category": "image",
+      "summary": "Text to image with native 2K output and strong text rendering.",
+      "api": "api/qwen-image-t2i.json",
+      "min_vram_gb": 24,
+      "est_gpu_minutes": 1.0,
+      "inputs": [
+        {
+          "key": "prompt",
+          "label": "Prompt",
+          "type": "text",
+          "targets": [
+            [
+              "459:452",
+              "prompt"
+            ]
+          ]
+        },
+        {
+          "key": "aspect_ratio",
+          "label": "Aspect ratio",
+          "type": "choice",
+          "targets": [
+            [
+              "13",
+              "aspect_ratio"
+            ]
+          ],
+          "options": [
+            "1:1 (Square)",
+            "16:9 (Widescreen)",
+            "9:16 (Portrait Widescreen)",
+            "4:3 (Standard)",
+            "3:4 (Portrait Standard)",
+            "21:9 (Ultrawide)",
+            "3:2 (Photo)",
+            "2:3 (Portrait Photo)"
+          ],
+          "default": "1:1 (Square)"
+        },
+        {
+          "key": "megapixels",
+          "label": "Megapixels",
+          "type": "float",
+          "targets": [
+            [
+              "13",
+              "megapixels"
+            ]
+          ],
+          "default": 1.0,
+          "min": 0.2,
+          "max": 4.0,
+          "step": 0.1
+        },
+        {
+          "key": "seed",
+          "label": "Seed",
+          "type": "seed",
+          "targets": [
+            [
+              "459:458",
+              "seed"
+            ]
+          ],
+          "hint": "-1 or empty = random"
+        }
+      ],
+      "outputs": {
+        "nodes": [
+          "461"
+        ],
+        "kind": "image"
+      },
+      "ui": [
+        "ui/qwen-image-t2i.json"
+      ],
+      "models": [
+        "qwen-image-2-1-bf16",
+        "qwen-image-2-1-vae-bf16",
+        "qwen3vl-8b-bf16"
+      ],
+      "custom_nodes": [
+        "rgthree-comfy"
+      ]
+    },
+    {
+      "id": "flux3-klein",
+      "title": "FLUX 3 Image Klein",
+      "category": "image",
+      "summary": "Black Forest Labs' small FLUX 3: sharp photoreal text to image in 15 steps.",
+      "api": "api/flux3-klein.json",
+      "min_vram_gb": 24,
+      "est_gpu_minutes": 0.5,
+      "inputs": [
+        {
+          "key": "prompt",
+          "label": "Prompt",
+          "type": "text",
+          "targets": [
+            [
+              "4",
+              "text"
+            ]
+          ],
+          "hint": "Describe the whole picture: medium, scene, light, subjects"
+        },
+        {
+          "key": "aspect_ratio",
+          "label": "Aspect ratio",
+          "type": "choice",
+          "targets": [
+            [
+              "13",
+              "aspect_ratio"
+            ]
+          ],
+          "options": [
+            "1:1 (Square)",
+            "16:9 (Widescreen)",
+            "9:16 (Portrait Widescreen)",
+            "4:3 (Standard)",
+            "3:4 (Portrait Standard)",
+            "21:9 (Ultrawide)",
+            "3:2 (Photo)",
+            "2:3 (Portrait Photo)"
+          ],
+          "default": "1:1 (Square)"
+        },
+        {
+          "key": "megapixels",
+          "label": "Megapixels",
+          "type": "float",
+          "targets": [
+            [
+              "13",
+              "megapixels"
+            ]
+          ],
+          "default": 1.0,
+          "min": 0.2,
+          "max": 4.0,
+          "step": 0.1
+        },
+        {
+          "key": "seed",
+          "label": "Seed",
+          "type": "seed",
+          "targets": [
+            [
+              "7",
+              "seed"
+            ]
+          ],
+          "hint": "-1 or empty = random"
+        }
+      ],
+      "outputs": {
+        "nodes": [
+          "9"
+        ],
+        "kind": "image"
+      },
+      "ui": [
+        "ui/flux3-klein.json"
+      ],
+      "license_note": "Gated on Hugging Face: accept the FLUX Kommunity License on the ComfyUI repo https://huggingface.co/black-forest-labs/flux-3-image-klein-comfy (accepting it on the main flux-3-image-klein page is not enough), then set HF_TOKEN.",
+      "models": [
+        "flux2-vae",
+        "flux3-image-klein-int8-convrot",
+        "qwen3vl-4b-int8-convrot"
+      ],
+      "custom_nodes": []
+    },
+    {
+      "id": "flux3-klein-edit",
+      "title": "FLUX 3 Image Klein Edit",
+      "category": "edit",
+      "summary": "Edit a picture with words, or combine up to 4 references into a new shot. The result keeps the size of image 1.",
+      "api": "api/flux3-klein-edit.json",
+      "min_vram_gb": 24,
+      "est_gpu_minutes": 0.5,
+      "inputs": [
+        {
+          "key": "prompt",
+          "label": "Instruction",
+          "type": "text",
+          "targets": [
+            [
+              "4",
+              "text"
+            ]
+          ],
+          "hint": "Write the result with the edit folded in; refer to the first image, the second image..."
+        },
+        {
+          "key": "image1",
+          "label": "Image 1",
+          "type": "image",
+          "required": true,
+          "targets": [
+            [
+              "11",
+              "image"
+            ]
+          ]
+        },
+        {
+          "key": "image2",
+          "label": "Image 2",
+          "type": "image",
+          "required": false,
+          "targets": [
+            [
+              "12",
+              "image"
+            ]
+          ],
+          "if_missing": "remove",
+          "remove_nodes": [
+            "12"
+          ]
+        },
+        {
+          "key": "image3",
+          "label": "Image 3",
+          "type": "image",
+          "required": false,
+          "targets": [
+            [
+              "14",
+              "image"
+            ]
+          ],
+          "if_missing": "remove",
+          "remove_nodes": [
+            "14"
+          ]
+        },
+        {
+          "key": "image4",
+          "label": "Image 4",
+          "type": "image",
+          "required": false,
+          "targets": [
+            [
+              "15",
+              "image"
+            ]
+          ],
+          "if_missing": "remove",
+          "remove_nodes": [
+            "15"
+          ]
+        },
+        {
+          "key": "megapixels",
+          "label": "Reference megapixels",
+          "type": "float",
+          "targets": [
+            [
+              "17",
+              "resolution.megapixels"
+            ]
+          ],
+          "default": 1.0,
+          "min": 0.2,
+          "max": 4.0,
+          "step": 0.1,
+          "hint": "Size of each reference, and so of the result"
+        },
+        {
+          "key": "seed",
+          "label": "Seed",
+          "type": "seed",
+          "targets": [
+            [
+              "7",
+              "seed"
+            ]
+          ],
+          "hint": "-1 or empty = random"
+        }
+      ],
+      "outputs": {
+        "nodes": [
+          "9"
+        ],
+        "kind": "image"
+      },
+      "ui": [
+        "ui/flux3-klein-edit.json"
+      ],
+      "license_note": "Gated on Hugging Face: accept the FLUX Kommunity License on the ComfyUI repo https://huggingface.co/black-forest-labs/flux-3-image-klein-comfy (accepting it on the main flux-3-image-klein page is not enough), then set HF_TOKEN.",
+      "models": [
+        "flux2-vae",
+        "flux3-image-klein-int8-convrot",
+        "qwen3vl-4b-int8-convrot"
+      ],
+      "custom_nodes": []
+    },
+    {
+      "id": "qwen-image-edit",
+      "title": "Qwen Image 2.1 Edit",
+      "category": "edit",
+      "summary": "Edit a picture with words, using up to 5 reference images (<image1>...<image5>).",
+      "api": "api/qwen-image-edit.json",
+      "min_vram_gb": 24,
+      "est_gpu_minutes": 1.0,
+      "inputs": [
+        {
+          "key": "prompt",
+          "label": "Instruction",
+          "type": "text",
+          "targets": [
+            [
+              "459:474",
+              "prompt"
+            ]
+          ],
+          "hint": "Refer to inputs as <image1>, <image2>..."
+        },
+        {
+          "key": "image1",
+          "label": "Image 1",
+          "type": "image",
+          "required": true,
+          "targets": [
+            [
+              "470",
+              "image"
+            ]
+          ]
+        },
+        {
+          "key": "image2",
+          "label": "Image 2",
+          "type": "image",
+          "required": false,
+          "targets": [
+            [
+              "475",
+              "image"
+            ]
+          ],
+          "if_missing": "remove",
+          "remove_nodes": [
+            "475"
+          ]
+        },
+        {
+          "key": "image3",
+          "label": "Image 3",
+          "type": "image",
+          "required": false,
+          "targets": [
+            [
+              "478",
+              "image"
+            ]
+          ],
+          "if_missing": "remove",
+          "remove_nodes": [
+            "478"
+          ]
+        },
+        {
+          "key": "image4",
+          "label": "Image 4",
+          "type": "image",
+          "required": false,
+          "targets": [
+            [
+              "479",
+              "image"
+            ]
+          ],
+          "if_missing": "remove",
+          "remove_nodes": [
+            "479"
+          ]
+        },
+        {
+          "key": "image5",
+          "label": "Image 5",
+          "type": "image",
+          "required": false,
+          "targets": [
+            [
+              "480",
+              "image"
+            ]
+          ],
+          "if_missing": "remove",
+          "remove_nodes": [
+            "480"
+          ]
+        },
+        {
+          "key": "aspect_ratio",
+          "label": "Aspect ratio",
+          "type": "choice",
+          "targets": [
+            [
+              "13",
+              "aspect_ratio"
+            ]
+          ],
+          "options": [
+            "1:1 (Square)",
+            "16:9 (Widescreen)",
+            "9:16 (Portrait Widescreen)",
+            "4:3 (Standard)",
+            "3:4 (Portrait Standard)",
+            "21:9 (Ultrawide)",
+            "3:2 (Photo)",
+            "2:3 (Portrait Photo)"
+          ],
+          "default": "1:1 (Square)",
+          "aspect_from": "image1",
+          "hint": "empty = the aspect of the picture"
+        },
+        {
+          "key": "megapixels",
+          "label": "Megapixels",
+          "type": "float",
+          "targets": [
+            [
+              "13",
+              "megapixels"
+            ]
+          ],
+          "default": 1.0,
+          "min": 0.2,
+          "max": 4.0,
+          "step": 0.1
+        },
+        {
+          "key": "seed",
+          "label": "Seed",
+          "type": "seed",
+          "targets": [
+            [
+              "459:458",
+              "seed"
+            ]
+          ],
+          "hint": "-1 or empty = random"
+        }
+      ],
+      "outputs": {
+        "nodes": [
+          "461"
+        ],
+        "kind": "image"
+      },
+      "ui": [
+        "ui/qwen-image-edit.json"
+      ],
+      "prompt_tags": [
+        "<image1>",
+        "<image2>",
+        "<image3>",
+        "<image4>",
+        "<image5>"
+      ],
+      "models": [
+        "qwen-image-2-1-bf16",
+        "qwen-image-2-1-vae-bf16",
+        "qwen3vl-8b-bf16"
+      ],
+      "custom_nodes": [
+        "rgthree-comfy"
+      ]
+    },
+    {
+      "id": "qwen-image-inpaint",
+      "title": "Qwen Image 2.1 Inpaint",
+      "category": "edit",
+      "summary": "Repaint the masked area (alpha channel) of a picture, guided by text and the original scene.",
+      "api": "api/qwen-image-inpaint.json",
+      "min_vram_gb": 24,
+      "est_gpu_minutes": 1.0,
+      "inputs": [
+        {
+          "key": "image",
+          "label": "Image with mask (transparent = repaint)",
+          "type": "image",
+          "required": true,
+          "targets": [
+            [
+              "11",
+              "image"
+            ]
+          ],
+          "mask": "alpha"
+        },
+        {
+          "key": "prompt",
+          "label": "What to paint",
+          "type": "text",
+          "targets": [
+            [
+              "165",
+              "value"
+            ]
+          ]
+        },
+        {
+          "key": "reference2",
+          "label": "Reference 2 (scene)",
+          "type": "image",
+          "required": false,
+          "targets": [
+            [
+              "134",
+              "image"
+            ]
+          ],
+          "if_missing": "copy:image"
+        },
+        {
+          "key": "reference3",
+          "label": "Reference 3",
+          "type": "image",
+          "required": false,
+          "targets": [
+            [
+              "136",
+              "image"
+            ]
+          ],
+          "if_missing": "copy:image"
+        },
+        {
+          "key": "seed",
+          "label": "Seed",
+          "type": "seed",
+          "targets": [
+            [
+              "193",
+              "noise_seed"
+            ]
+          ],
+          "hint": "-1 or empty = random"
+        }
+      ],
+      "outputs": {
+        "nodes": [
+          "201"
+        ],
+        "kind": "image"
+      },
+      "ui": [
+        "ui/qwen-image-inpaint.json"
+      ],
+      "models": [
+        "qwen-image-2-1-bf16",
+        "qwen-image-2-1-vae-bf16",
+        "qwen3vl-8b-bf16"
+      ],
+      "custom_nodes": [
+        "comfyui-impact-pack",
+        "comfyui-kjnodes"
+      ]
+    },
+    {
+      "id": "firered-edit",
+      "title": "FireRed Image Edit 1.1",
+      "category": "edit",
+      "summary": "Instruction editing with up to three images and an 8-step Lightning LoRA.",
+      "api": "api/firered-edit.json",
+      "min_vram_gb": 48,
+      "est_gpu_minutes": 1.0,
+      "inputs": [
+        {
+          "key": "image",
+          "label": "Image",
+          "type": "image",
+          "required": true,
+          "targets": [
+            [
+              "143",
+              "image"
+            ]
+          ]
+        },
+        {
+          "key": "prompt",
+          "label": "Instruction",
+          "type": "text",
+          "targets": [
+            [
+              "118",
+              "prompt"
+            ]
+          ]
+        },
+        {
+          "key": "image2",
+          "label": "Second image",
+          "type": "image",
+          "required": false,
+          "targets": [
+            [
+              "133",
+              "image"
+            ]
+          ],
+          "if_missing": "copy:image"
+        },
+        {
+          "key": "image3",
+          "label": "Third image",
+          "type": "image",
+          "required": false,
+          "targets": [
+            [
+              "135",
+              "image"
+            ]
+          ],
+          "if_missing": "copy:image"
+        },
+        {
+          "key": "lightning",
+          "label": "Fast mode (8 steps)",
+          "type": "bool",
+          "targets": [
+            [
+              "153",
+              "value"
+            ]
+          ],
+          "default": true
+        },
+        {
+          "key": "seed",
+          "label": "Seed",
+          "type": "seed",
+          "targets": [
+            [
+              "130",
+              "seed"
+            ]
+          ],
+          "hint": "-1 or empty = random"
+        }
+      ],
+      "outputs": {
+        "nodes": [
+          "9"
+        ],
+        "kind": "image"
+      },
+      "ui": [
+        "ui/firered-edit.json"
+      ],
+      "models": [
+        "firered-image-edit-1-0-lightning-8steps-v1-0",
+        "firered-image-edit-1-1-transformer",
+        "qwen-image-vae",
+        "qwen2-5vl-7b-bf16"
+      ],
+      "custom_nodes": [
+        "comfyui-wanvideowrapper"
+      ]
+    },
+    {
+      "id": "qwen-camera-angle",
+      "title": "Camera Angle (Qwen 2511)",
+      "category": "edit",
+      "summary": "Re-shoot a picture from a new camera angle chosen on a 3D gizmo.",
+      "api": "api/qwen-camera-angle.json",
+      "min_vram_gb": 48,
+      "est_gpu_minutes": 0.5,
+      "inputs": [
+        {
+          "key": "image",
+          "label": "Image",
+          "type": "image",
+          "required": true,
+          "targets": [
+            [
+              "41",
+              "image"
+            ]
+          ]
+        },
+        {
+          "key": "seed",
+          "label": "Seed",
+          "type": "seed",
+          "targets": [
+            [
+              "65",
+              "seed"
+            ]
+          ],
+          "hint": "-1 or empty = random"
+        }
+      ],
+      "outputs": {
+        "nodes": [
+          "123"
+        ],
+        "kind": "image"
+      },
+      "ui": [
+        "ui/qwen-camera-angle.json"
+      ],
+      "note": "The angle is set on the QwenMultiangleCameraNode in the graph.",
+      "models": [
+        "qwen-2-5-vl-7b-fp8-scaled",
+        "qwen-image-edit-2511-bf16",
+        "qwen-image-edit-2511-lightning-8steps-v1-0-bf16",
+        "qwen-image-edit-2511-multiple-angles-lora",
+        "qwen-image-vae"
+      ],
+      "custom_nodes": [
+        "comfyroll",
+        "comfyui-layerstyle",
+        "comfyui-qwenmultiangle"
+      ]
+    },
+    {
+      "id": "qwen-camera-multi-angle",
+      "title": "Six Camera Angles (Qwen 2511)",
+      "category": "edit",
+      "summary": "Six new camera angles of the same picture in one run (character sheet).",
+      "api": "api/qwen-camera-multi-angle.json",
+      "min_vram_gb": 48,
+      "est_gpu_minutes": 3.0,
+      "inputs": [
+        {
+          "key": "image",
+          "label": "Image",
+          "type": "image",
+          "required": true,
+          "targets": [
+            [
+              "41",
+              "image"
+            ]
+          ]
+        },
+        {
+          "key": "seed",
+          "label": "Seed",
+          "type": "seed",
+          "targets": [
+            [
+              "108",
+              "seed"
+            ],
+            [
+              "123",
+              "seed"
+            ],
+            [
+              "136",
+              "seed"
+            ],
+            [
+              "149",
+              "seed"
+            ],
+            [
+              "162",
+              "seed"
+            ],
+            [
+              "175",
+              "seed"
+            ]
+          ],
+          "hint": "-1 or empty = random"
+        }
+      ],
+      "outputs": {
+        "nodes": [
+          "203",
+          "204",
+          "205",
+          "206",
+          "207",
+          "208"
+        ],
+        "kind": "image"
+      },
+      "ui": [
+        "ui/qwen-camera-multi-angle.json"
+      ],
+      "models": [
+        "qwen-2-5-vl-7b-fp8-scaled",
+        "qwen-image-edit-2511-bf16",
+        "qwen-image-edit-2511-lightning-8steps-v1-0-bf16",
+        "qwen-image-edit-2511-multiple-angles-lora",
+        "qwen-image-vae"
+      ],
+      "custom_nodes": [
+        "comfyui-qwenmultiangle"
+      ]
+    },
+    {
+      "id": "ltx25-t2v",
+      "title": "LTX 2.5 Text to Video + Sound",
+      "category": "vfx",
+      "summary": "Text to video with generated sound, or your own audio track.",
+      "api": "api/ltx25-t2v.json",
+      "min_vram_gb": 32,
+      "est_gpu_minutes": 2.0,
+      "inputs": [
+        {
+          "key": "prompt",
+          "label": "Prompt",
+          "type": "text",
+          "targets": [
+            [
+              "405:376",
+              "value"
+            ]
+          ]
+        },
+        {
+          "key": "duration",
+          "label": "Seconds",
+          "type": "int",
+          "targets": [
+            [
+              "405:362",
+              "value"
+            ]
+          ],
+          "default": 5,
+          "min": 1,
+          "max": 20,
+          "step": 1
+        },
+        {
+          "key": "aspect_ratio",
+          "label": "Aspect ratio",
+          "type": "choice",
+          "targets": [
+            [
+              "409",
+              "aspect_ratio"
+            ]
+          ],
+          "options": [
+            "1:1 (Square)",
+            "16:9 (Widescreen)",
+            "9:16 (Portrait Widescreen)",
+            "4:3 (Standard)",
+            "3:4 (Portrait Standard)",
+            "21:9 (Ultrawide)",
+            "3:2 (Photo)",
+            "2:3 (Portrait Photo)"
+          ],
+          "default": "16:9 (Widescreen)"
+        },
+        {
+          "key": "megapixels",
+          "label": "Megapixels",
+          "type": "float",
+          "targets": [
+            [
+              "409",
+              "megapixels"
+            ]
+          ],
+          "default": 0.9,
+          "min": 0.2,
+          "max": 2.0,
+          "step": 0.1
+        },
+        {
+          "key": "audio",
+          "label": "Custom audio (optional)",
+          "type": "audio",
+          "required": false,
+          "targets": [
+            [
+              "413",
+              "audio"
+            ]
+          ],
+          "if_missing": "silence",
+          "also_set": [
+            [
+              "414",
+              "value",
+              true
+            ]
+          ],
+          "missing_set": [
+            [
+              "414",
+              "value",
+              false
+            ]
+          ]
+        },
+        {
+          "key": "seed",
+          "label": "Seed",
+          "type": "seed",
+          "targets": [
+            [
+              "405:339",
+              "noise_seed"
+            ],
+            [
+              "405:338",
+              "noise_seed"
+            ]
+          ],
+          "hint": "-1 or empty = random"
+        }
+      ],
+      "outputs": {
+        "nodes": [
+          "75"
+        ],
+        "kind": "video"
+      },
+      "ui": [
+        "ui/ltx25-t2v.json"
+      ],
+      "license_note": "LTX 2.5 weights are gated on Hugging Face: accept the license on the model page and set HF_TOKEN before installing.",
+      "models": [
+        "gemma4-12b-with-proj-ltx-2-5-comfy-int8-convrot",
+        "ltx-2-5-22b-distilled-transformer-comfy-int8-convrot",
+        "ltx-2-5-audio-vae-bf16",
+        "ltx-2-5-latent-spatial-upscaler-x2-bf16-1-0",
+        "ltx-2-5-video-vae-bf16"
+      ],
+      "custom_nodes": [
+        "rgthree-comfy"
+      ]
+    },
+    {
+      "id": "ltx25-i2v",
+      "title": "LTX 2.5 Image to Video + Sound",
+      "category": "vfx",
+      "summary": "Animate a picture with generated sound or your own audio (custom-audio I2V).",
+      "api": "api/ltx25-i2v.json",
+      "min_vram_gb": 32,
+      "est_gpu_minutes": 2.0,
+      "inputs": [
+        {
+          "key": "image",
+          "label": "First frame",
+          "type": "image",
+          "required": true,
+          "targets": [
+            [
+              "395",
+              "image"
+            ]
+          ]
+        },
+        {
+          "key": "prompt",
+          "label": "Prompt",
+          "type": "text",
+          "targets": [
+            [
+              "398:376",
+              "value"
+            ]
+          ]
+        },
+        {
+          "key": "duration",
+          "label": "Seconds",
+          "type": "int",
+          "targets": [
+            [
+              "398:362",
+              "value"
+            ]
+          ],
+          "default": 5,
+          "min": 1,
+          "max": 20,
+          "step": 1
+        },
+        {
+          "key": "aspect_ratio",
+          "label": "Aspect ratio",
+          "type": "choice",
+          "targets": [
+            [
+              "403",
+              "aspect_ratio"
+            ]
+          ],
+          "options": [
+            "1:1 (Square)",
+            "16:9 (Widescreen)",
+            "9:16 (Portrait Widescreen)",
+            "4:3 (Standard)",
+            "3:4 (Portrait Standard)",
+            "21:9 (Ultrawide)",
+            "3:2 (Photo)",
+            "2:3 (Portrait Photo)"
+          ],
+          "default": "16:9 (Widescreen)",
+          "aspect_from": "image",
+          "hint": "empty = the aspect of the picture"
+        },
+        {
+          "key": "megapixels",
+          "label": "Megapixels",
+          "type": "float",
+          "targets": [
+            [
+              "403",
+              "megapixels"
+            ]
+          ],
+          "default": 1.0,
+          "min": 0.2,
+          "max": 2.0,
+          "step": 0.1
+        },
+        {
+          "key": "audio",
+          "label": "Custom audio (optional)",
+          "type": "audio",
+          "required": false,
+          "targets": [
+            [
+              "405",
+              "audio"
+            ]
+          ],
+          "if_missing": "silence",
+          "also_set": [
+            [
+              "406",
+              "value",
+              true
+            ]
+          ],
+          "missing_set": [
+            [
+              "406",
+              "value",
+              false
+            ]
+          ]
+        },
+        {
+          "key": "seed",
+          "label": "Seed",
+          "type": "seed",
+          "targets": [
+            [
+              "398:339",
+              "noise_seed"
+            ],
+            [
+              "398:338",
+              "noise_seed"
+            ]
+          ],
+          "hint": "-1 or empty = random"
+        }
+      ],
+      "outputs": {
+        "nodes": [
+          "75"
+        ],
+        "kind": "video"
+      },
+      "ui": [
+        "ui/ltx25-i2v.json"
+      ],
+      "license_note": "LTX 2.5 weights are gated on Hugging Face: accept the license on the model page and set HF_TOKEN before installing.",
+      "models": [
+        "gemma4-12b-with-proj-ltx-2-5-comfy-int8-convrot",
+        "ltx-2-5-22b-distilled-transformer-comfy-int8-convrot",
+        "ltx-2-5-audio-vae-bf16",
+        "ltx-2-5-latent-spatial-upscaler-x2-bf16-1-0",
+        "ltx-2-5-video-vae-bf16"
+      ],
+      "custom_nodes": [
+        "rgthree-comfy"
+      ]
+    },
+    {
+      "id": "ltx25-flf",
+      "title": "LTX 2.5 First-Last Frame Transition",
+      "category": "vfx",
+      "summary": "A transition shot between two pictures (FLF), with sound.",
+      "api": "api/ltx25-flf.json",
+      "min_vram_gb": 32,
+      "est_gpu_minutes": 2.0,
+      "inputs": [
+        {
+          "key": "first",
+          "label": "First frame",
+          "type": "image",
+          "required": true,
+          "targets": [
+            [
+              "31",
+              "image"
+            ]
+          ]
+        },
+        {
+          "key": "last",
+          "label": "Last frame",
+          "type": "image",
+          "required": true,
+          "targets": [
+            [
+              "39",
+              "image"
+            ]
+          ]
+        },
+        {
+          "key": "prompt",
+          "label": "Prompt",
+          "type": "text",
+          "targets": [
+            [
+              "251:252",
+              "value"
+            ]
+          ]
+        },
+        {
+          "key": "duration",
+          "label": "Seconds",
+          "type": "int",
+          "targets": [
+            [
+              "251:198",
+              "value"
+            ]
+          ],
+          "default": 5,
+          "min": 1,
+          "max": 20,
+          "step": 1
+        },
+        {
+          "key": "width",
+          "label": "Width",
+          "type": "int",
+          "targets": [
+            [
+              "251:215",
+              "value"
+            ]
+          ],
+          "default": 1280,
+          "min": 256,
+          "max": 1920,
+          "step": 32
+        },
+        {
+          "key": "height",
+          "label": "Height",
+          "type": "int",
+          "targets": [
+            [
+              "251:216",
+              "value"
+            ]
+          ],
+          "default": 720,
+          "min": 256,
+          "max": 1920,
+          "step": 32
+        },
+        {
+          "key": "audio",
+          "label": "Custom audio (optional)",
+          "type": "audio",
+          "required": false,
+          "targets": [
+            [
+              "259",
+              "audio"
+            ]
+          ],
+          "if_missing": "silence",
+          "also_set": [
+            [
+              "260",
+              "value",
+              true
+            ]
+          ],
+          "missing_set": [
+            [
+              "260",
+              "value",
+              false
+            ]
+          ]
+        },
+        {
+          "key": "seed",
+          "label": "Seed",
+          "type": "seed",
+          "targets": [
+            [
+              "251:196",
+              "noise_seed"
+            ]
+          ],
+          "hint": "-1 or empty = random"
+        }
+      ],
+      "outputs": {
+        "nodes": [
+          "68"
+        ],
+        "kind": "video"
+      },
+      "ui": [
+        "ui/ltx25-flf.json"
+      ],
+      "license_note": "LTX 2.5 weights are gated on Hugging Face: accept the license on the model page and set HF_TOKEN before installing.",
+      "models": [
+        "gemma4-12b-with-proj-ltx-2-5-comfy-int8-convrot",
+        "ltx-2-5-22b-distilled-transformer-comfy-int8-convrot",
+        "ltx-2-5-audio-vae-bf16",
+        "ltx-2-5-video-vae-bf16"
+      ],
+      "custom_nodes": [
+        "rgthree-comfy"
+      ]
+    },
+    {
+      "id": "ltx25-v2v-upscale",
+      "title": "LTX 2.5 Video Restyle / Upscale",
+      "category": "vfx",
+      "summary": "Re-render a video at 1080p with LTX 2.5 (v2v refine), keeping its sound.",
+      "api": "api/ltx25-v2v-upscale.json",
+      "min_vram_gb": 32,
+      "est_gpu_minutes": 6.0,
+      "inputs": [
+        {
+          "key": "video",
+          "label": "Video",
+          "type": "video",
+          "required": true,
+          "targets": [
+            [
+              "160",
+              "video"
+            ]
+          ]
+        },
+        {
+          "key": "prompt",
+          "label": "Look",
+          "type": "text",
+          "targets": [
+            [
+              "120",
+              "text"
+            ]
+          ]
+        },
+        {
+          "key": "seed",
+          "label": "Seed",
+          "type": "seed",
+          "targets": [
+            [
+              "394",
+              "noise_seed"
+            ]
+          ],
+          "hint": "-1 or empty = random"
+        }
+      ],
+      "outputs": {
+        "nodes": [
+          "147"
+        ],
+        "kind": "video"
+      },
+      "ui": [
+        "ui/ltx25-v2v-upscale.json"
+      ],
+      "license_note": "LTX 2.5 weights are gated on Hugging Face: accept the license on the model page and set HF_TOKEN before installing.",
+      "models": [
+        "gemma4-12b-with-proj-ltx-2-5-comfy-int8-convrot",
+        "ltx-2-5-22b-distilled-transformer-comfy-int8-convrot",
+        "ltx-2-5-audio-vae-bf16",
+        "ltx-2-5-latent-temporal-upscaler-x2-bf16-1-0",
+        "ltx2-3-crisp-enhance",
+        "ltx23-video-vae-bf16"
+      ],
+      "custom_nodes": [
+        "comfyui-easy-use",
+        "comfyui-kjnodes",
+        "comfyui-nvidia-rtx-nodes",
+        "comfyui-videohelpersuite",
+        "res4lyf"
+      ]
+    },
+    {
+      "id": "h3-i2v",
+      "title": "MiniMax H3 Image to Video + Sound",
+      "category": "video",
+      "summary": "Animate a picture with native stereo sound (refer to it as <Picture 1>).",
+      "api": "api/h3-i2v.json",
+      "min_vram_gb": 48,
+      "est_gpu_minutes": 4.0,
+      "inputs": [
+        {
+          "key": "image",
+          "label": "Picture 1",
+          "type": "image",
+          "required": true,
+          "targets": [
+            [
+              "114",
+              "image"
+            ]
+          ]
+        },
+        {
+          "key": "prompt",
+          "label": "Prompt",
+          "type": "text",
+          "targets": [
+            [
+              "105:104",
+              "prompt"
+            ]
+          ]
+        },
+        {
+          "key": "duration",
+          "label": "Seconds",
+          "type": "float",
+          "targets": [
+            [
+              "105:111",
+              "value"
+            ]
+          ],
+          "default": 5,
+          "min": 1,
+          "max": 15,
+          "step": 0.5
+        },
+        {
+          "key": "aspect_ratio",
+          "label": "Aspect ratio",
+          "type": "choice",
+          "targets": [
+            [
+              "115",
+              "aspect_ratio"
+            ]
+          ],
+          "options": [
+            "1:1 (Square)",
+            "16:9 (Widescreen)",
+            "9:16 (Portrait Widescreen)",
+            "4:3 (Standard)",
+            "3:4 (Portrait Standard)",
+            "21:9 (Ultrawide)",
+            "3:2 (Photo)",
+            "2:3 (Portrait Photo)"
+          ],
+          "default": "1:1 (Square)",
+          "aspect_from": "image",
+          "hint": "empty = the aspect of the picture"
+        },
+        {
+          "key": "megapixels",
+          "label": "Megapixels",
+          "type": "float",
+          "targets": [
+            [
+              "115",
+              "megapixels"
+            ]
+          ],
+          "default": 0.98,
+          "min": 0.2,
+          "max": 1.0,
+          "step": 0.1,
+          "hint": "0.98 = H3's native 1344 x 768; 0.4 is a fast draft"
+        },
+        {
+          "key": "seed",
+          "label": "Seed",
+          "type": "seed",
+          "targets": [
+            [
+              "105:15",
+              "noise_seed"
+            ]
+          ],
+          "hint": "-1 or empty = random"
+        }
+      ],
+      "outputs": {
+        "nodes": [
+          "92"
+        ],
+        "kind": "video"
+      },
+      "ui": [
+        "ui/h3-i2v.json"
+      ],
+      "prompt_tags": [
+        "<Picture 1>"
+      ],
+      "models": [
+        "minimax-h3-audio-vae-fp32",
+        "minimax-h3-fl2va-pruned-int8-convrot",
+        "minimax-h3-video-vae-fp16",
+        "qwen3vl-32b-minimax-h3-int8-convrot"
+      ],
+      "custom_nodes": []
+    },
+    {
+      "id": "wan22-i2v-fast",
+      "title": "Wan 2.2 Image to Video (fast)",
+      "category": "video",
+      "summary": "Wan 2.2 14B GGUF with speed LoRAs, RIFE 30 fps and a SeedVR2 polish.",
+      "api": "api/wan22-i2v-fast.json",
+      "min_vram_gb": 24,
+      "est_gpu_minutes": 4.0,
+      "inputs": [
+        {
+          "key": "image",
+          "label": "Image",
+          "type": "image",
+          "required": true,
+          "targets": [
+            [
+              "52",
+              "image"
+            ]
+          ]
+        },
+        {
+          "key": "prompt",
+          "label": "Prompt",
+          "type": "text",
+          "targets": [
+            [
+              "6",
+              "text"
+            ]
+          ]
+        },
+        {
+          "key": "negative",
+          "label": "Negative prompt",
+          "type": "text",
+          "targets": [
+            [
+              "7",
+              "text"
+            ]
+          ],
+          "advanced": true
+        },
+        {
+          "key": "seed",
+          "label": "Seed",
+          "type": "seed",
+          "targets": [
+            [
+              "57",
+              "noise_seed"
+            ]
+          ],
+          "hint": "-1 or empty = random"
+        }
+      ],
+      "outputs": {
+        "nodes": [
+          "86"
+        ],
+        "kind": "video"
+      },
+      "ui": [
+        "ui/wan22-i2v-fast.json"
+      ],
+      "models": [
+        "ema-vae-fp16",
+        "rife49",
+        "seedvr2-ema-3b-fp16",
+        "umt5-xxl-fp8-e4m3fn-scaled",
+        "wan-2-1-vae",
+        "wan2-1-i2v-14b-fusionx-lora",
+        "wan2-2-i2v-a14b-highnoise-q8-0",
+        "wan2-2-i2v-a14b-lownoise-q8-0",
+        "wan21-causvid-14b-t2v-lora-rank32-v2"
+      ],
+      "custom_nodes": [
+        "comfyui-easy-use",
+        "comfyui-frame-interpolation",
+        "comfyui-gguf",
+        "comfyui-kjnodes",
+        "comfyui-layerstyle",
+        "comfyui-seedvr2-videoupscaler",
+        "comfyui-videohelpersuite"
+      ],
+      "size_from": "image:area_960",
+      "size_targets": [
+        [
+          "64",
+          "width"
+        ],
+        [
+          "64",
+          "height"
+        ]
+      ]
+    },
+    {
+      "id": "wan22-flf",
+      "title": "Wan 2.2 First-Last Frame",
+      "category": "video",
+      "summary": "Wan 2.2 transition between two pictures, upscaled and interpolated to 30 fps.",
+      "api": "api/wan22-flf.json",
+      "min_vram_gb": 24,
+      "est_gpu_minutes": 4.0,
+      "inputs": [
+        {
+          "key": "first",
+          "label": "First frame",
+          "type": "image",
+          "required": true,
+          "targets": [
+            [
+              "62",
+              "image"
+            ]
+          ]
+        },
+        {
+          "key": "last",
+          "label": "Last frame",
+          "type": "image",
+          "required": true,
+          "targets": [
+            [
+              "68",
+              "image"
+            ]
+          ]
+        },
+        {
+          "key": "prompt",
+          "label": "Prompt",
+          "type": "text",
+          "targets": [
+            [
+              "6",
+              "text"
+            ]
+          ]
+        },
+        {
+          "key": "seed",
+          "label": "Seed",
+          "type": "seed",
+          "targets": [
+            [
+              "87",
+              "noise_seed"
+            ]
+          ],
+          "hint": "-1 or empty = random"
+        }
+      ],
+      "outputs": {
+        "nodes": [
+          "81"
+        ],
+        "kind": "video"
+      },
+      "ui": [
+        "ui/wan22-flf.json"
+      ],
+      "models": [
+        "realesrgan-x2",
+        "rife49",
+        "umt5-xxl-fp8-e4m3fn-scaled",
+        "wan-2-1-vae",
+        "wan2-2-i2v-4steps-seko-v1-high-noise",
+        "wan2-2-i2v-4steps-seko-v1-low-noise",
+        "wan2-2-i2v-high-noise-14b-fp8-scaled",
+        "wan2-2-i2v-low-noise-14b-fp8-scaled"
+      ],
+      "custom_nodes": [
+        "comfyui-frame-interpolation",
+        "comfyui-videohelpersuite"
+      ],
+      "size_from": "image:area_960",
+      "size_targets": [
+        [
+          "67",
+          "width"
+        ],
+        [
+          "67",
+          "height"
+        ]
+      ]
+    },
+    {
+      "id": "wan21-scail2-loop",
+      "title": "SCAIL-2 Motion Transfer (loopable)",
+      "category": "video",
+      "summary": "Make the character in your picture perform the motion of a video, in looped chunks.",
+      "api": "api/wan21-scail2-loop.json",
+      "min_vram_gb": 48,
+      "est_gpu_minutes": 10.0,
+      "inputs": [
+        {
+          "key": "image",
+          "label": "Character",
+          "type": "image",
+          "required": true,
+          "targets": [
+            [
+              "30",
+              "image"
+            ]
+          ]
+        },
+        {
+          "key": "video",
+          "label": "Motion video",
+          "type": "video",
+          "required": true,
+          "targets": [
+            [
+              "33",
+              "video"
+            ]
+          ]
+        },
+        {
+          "key": "prompt",
+          "label": "Prompt",
+          "type": "text",
+          "targets": [
+            [
+              "3",
+              "text"
+            ]
+          ]
+        },
+        {
+          "key": "seconds",
+          "label": "Seconds",
+          "type": "int",
+          "targets": [
+            [
+              "162",
+              "value"
+            ]
+          ],
+          "default": 10,
+          "min": 3,
+          "max": 60,
+          "step": 1
+        }
+      ],
+      "outputs": {
+        "nodes": [
+          "163"
+        ],
+        "kind": "video"
+      },
+      "ui": [
+        "ui/wan21-scail2-loop.json"
+      ],
+      "models": [
+        "clip-vision-h",
+        "dw-ll-ucoco-384-bs5-torchscript",
+        "lightx2v-i2v-14b-480p-cfg-step-distill-rank64-bf16",
+        "sam3-1-multiplex-fp16",
+        "umt5-xxl-fp8-e4m3fn-scaled",
+        "wan2-1-14b-scail-2-fp16",
+        "wan2-1-vae-bf16",
+        "yolox-l"
+      ],
+      "custom_nodes": [
+        "comfyui-custom-scripts",
+        "comfyui-easy-use",
+        "comfyui-kjnodes",
+        "comfyui-videohelpersuite",
+        "comfyui_controlnet_aux"
+      ]
+    },
+    {
+      "id": "solar-render",
+      "title": "SolarRenderer: blocks to cinematic video",
+      "category": "video",
+      "summary": "Turn a rough structure video (grey boxes, depth, skeletons, a segmentation, even a sketch) into a finished 6.6 s clip on MiniMax H3, in four steps; a first frame and a detailed prompt set the look.",
+      "api": "api/solar-render.json",
+      "min_vram_gb": 24,
+      "est_gpu_minutes": 6.0,
+      "inputs": [
+        {
+          "key": "structure",
+          "label": "Structure video",
+          "type": "video",
+          "required": true,
+          "targets": [
+            [
+              "7",
+              "file"
+            ]
+          ],
+          "hint": "the motion, layout and camera to follow, 24 fps; up to 158 frames are used"
+        },
+        {
+          "key": "first_frame",
+          "label": "First frame",
+          "type": "image",
+          "required": false,
+          "targets": [
+            [
+              "9",
+              "image"
+            ]
+          ],
+          "if_missing": "remove",
+          "remove_nodes": [
+            "9"
+          ],
+          "missing_set": [
+            [
+              "22",
+              "with_first_frame",
+              false
+            ]
+          ],
+          "hint": "frame 0 of the structure video, already in the final look (recommended)"
+        },
+        {
+          "key": "structure_type",
+          "label": "What the structure video is",
+          "type": "choice",
+          "targets": [
+            [
+              "22",
+              "structure_type"
+            ]
+          ],
+          "options": [
+            "scene_graybox",
+            "semantic",
+            "scene_whitebox",
+            "mask_skeleton",
+            "smpl_mesh",
+            "near_depth"
+          ],
+          "default": "scene_graybox"
+        },
+        {
+          "key": "summary",
+          "label": "Summary",
+          "type": "text",
+          "targets": [
+            [
+              "22",
+              "summary"
+            ]
+          ],
+          "hint": "one paragraph: who does what, and how the camera moves"
+        },
+        {
+          "key": "prompt",
+          "label": "Detailed description",
+          "type": "text",
+          "targets": [
+            [
+              "22",
+              "detailed_description"
+            ]
+          ],
+          "hint": "350-500 words: the look first, then the shot in order. Describe what the camera turns to: the render falls back to the raw blocks where the prompt is silent"
+        },
+        {
+          "key": "length",
+          "label": "Frames (24 fps)",
+          "type": "int",
+          "targets": [
+            [
+              "10",
+              "length"
+            ]
+          ],
+          "default": 158,
+          "min": 22,
+          "max": 158,
+          "step": 1
+        },
+        {
+          "key": "seed",
+          "label": "Seed",
+          "type": "seed",
+          "targets": [
+            [
+              "13",
+              "noise_seed"
+            ],
+            [
+              "4",
+              "seed"
+            ]
+          ],
+          "hint": "-1 or empty = random"
+        },
+        {
+          "key": "model",
+          "label": "H3 model",
+          "type": "choice",
+          "targets": [
+            [
+              "1",
+              "unet_name"
+            ]
+          ],
+          "options": [
+            "minimax_h3_ref2va_pruned_int8_convrot.safetensors",
+            "Minimax-h3_Singularity_ref2va_v2_pruned_int8.safetensors"
+          ],
+          "default": "minimax_h3_ref2va_pruned_int8_convrot.safetensors",
+          "hint": "Singularity V2: a community fine-tune of H3 (sharper action, faces and camera moves); the official H3 otherwise"
+        }
+      ],
+      "outputs": {
+        "nodes": [
+          "20"
+        ],
+        "kind": "video"
+      },
+      "ui": [
+        "ui/solar-render.json"
+      ],
+      "license_note": "SolarRenderer's LoRAs are under the MiniMax H3 Community License, like MiniMax H3 itself.",
+      "models": [
+        "h3-singularity-v2-pruned-int8",
+        "minimax-h3-ref2va-pruned-int8-convrot",
+        "minimax-h3-video-vae-fp16",
+        "qwen3vl-32b-minimax-h3-int8-convrot",
+        "solarrenderer-4step-lora",
+        "solarrenderer-control-lora"
+      ],
+      "custom_nodes": [
+        "solarrenderer"
+      ],
+      "extra_models": [
+        "h3-singularity-v2-pruned-int8"
+      ]
+    },
+    {
+      "id": "h3-talk",
+      "title": "Talking Picture (H3 fast)",
+      "category": "talking",
+      "summary": "Lip-synced talking video from a picture and your voice (up to 15 s).",
+      "api": "api/h3-talk.json",
+      "min_vram_gb": 48,
+      "est_gpu_minutes": 4.0,
+      "inputs": [
+        {
+          "key": "image",
+          "label": "Picture",
+          "type": "image",
+          "required": true,
+          "targets": [
+            [
+              "5",
+              "image"
+            ]
+          ]
+        },
+        {
+          "key": "audio",
+          "label": "Voice",
+          "type": "audio",
+          "required": true,
+          "targets": [
+            [
+              "6",
+              "audio"
+            ]
+          ]
+        },
+        {
+          "key": "prompt",
+          "label": "Prompt",
+          "type": "text",
+          "targets": [
+            [
+              "20",
+              "prompt"
+            ]
+          ]
+        },
+        {
+          "key": "duration",
+          "label": "Seconds",
+          "type": "float",
+          "targets": [
+            [
+              "20",
+              "length"
+            ]
+          ],
+          "default": 15,
+          "min": 1,
+          "max": 15,
+          "step": 0.5,
+          "transform": "h3_frames"
+        },
+        {
+          "key": "seed",
+          "label": "Seed",
+          "type": "seed",
+          "targets": [
+            [
+              "30",
+              "noise_seed"
+            ]
+          ],
+          "hint": "-1 or empty = random"
+        }
+      ],
+      "outputs": {
+        "nodes": [
+          "40"
+        ],
+        "kind": "video"
+      },
+      "ui": [
+        "ui/h3-talk.json"
+      ],
+      "size_from": "image:h3_short_edge_768",
+      "size_targets": [
+        [
+          "20",
+          "width"
+        ],
+        [
+          "20",
+          "height"
+        ]
+      ],
+      "models": [
+        "h3-realism-people-t2v-i2v-r2v",
+        "minimax-h3-audio-vae-fp32",
+        "minimax-h3-fl2v-lightx2v-turbo-8step-v1-0-resized-avg-rank-24-bf16",
+        "minimax-h3-fl2va-pruned-w4a8-mixed",
+        "minimax-h3-video-vae-fp16",
+        "qwen3vl-32b-minimax-h3-int8-convrot"
+      ],
+      "custom_nodes": [
+        "comfyui-videohelpersuite",
+        "rgthree-comfy"
+      ]
+    },
+    {
+      "id": "h3-r2v",
+      "title": "H3 Reference to Video + your audio",
+      "category": "talking",
+      "summary": "Characters from pictures, sound from your audio: lip sync and music-driven shots.",
+      "api": "api/h3-r2v.json",
+      "min_vram_gb": 48,
+      "est_gpu_minutes": 5.0,
+      "inputs": [
+        {
+          "key": "picture1",
+          "label": "Picture 1",
+          "type": "image",
+          "required": true,
+          "targets": [
+            [
+              "137",
+              "image"
+            ]
+          ]
+        },
+        {
+          "key": "prompt",
+          "label": "Prompt",
+          "type": "text",
+          "targets": [
+            [
+              "138",
+              "value"
+            ]
+          ]
+        },
+        {
+          "key": "picture2",
+          "label": "Picture 2 (optional)",
+          "type": "image",
+          "required": false,
+          "targets": [
+            [
+              "139",
+              "image"
+            ]
+          ],
+          "if_missing": "remove",
+          "remove_nodes": [
+            "139"
+          ]
+        },
+        {
+          "key": "audio",
+          "label": "Audio 1 (optional)",
+          "type": "audio",
+          "required": false,
+          "targets": [
+            [
+              "142",
+              "audio"
+            ]
+          ],
+          "if_missing": "remove",
+          "remove_nodes": [
+            "142"
+          ]
+        },
+        {
+          "key": "duration",
+          "label": "Seconds",
+          "type": "float",
+          "targets": [
+            [
+              "132",
+              "value"
+            ]
+          ],
+          "default": 5,
+          "min": 1,
+          "max": 15,
+          "step": 0.5
+        },
+        {
+          "key": "aspect_ratio",
+          "label": "Aspect ratio",
+          "type": "choice",
+          "targets": [
+            [
+              "115",
+              "aspect_ratio"
+            ]
+          ],
+          "options": [
+            "1:1 (Square)",
+            "16:9 (Widescreen)",
+            "9:16 (Portrait Widescreen)",
+            "4:3 (Standard)",
+            "3:4 (Portrait Standard)",
+            "21:9 (Ultrawide)",
+            "3:2 (Photo)",
+            "2:3 (Portrait Photo)"
+          ],
+          "default": "16:9 (Widescreen)",
+          "aspect_from": "picture1",
+          "hint": "empty = the aspect of the picture"
+        },
+        {
+          "key": "megapixels",
+          "label": "Megapixels",
+          "type": "float",
+          "targets": [
+            [
+              "115",
+              "megapixels"
+            ]
+          ],
+          "default": 0.98,
+          "min": 0.2,
+          "max": 1.0,
+          "step": 0.1,
+          "hint": "0.98 = H3's native 1344 x 768; 0.4 is a fast draft"
+        },
+        {
+          "key": "seed",
+          "label": "Seed",
+          "type": "seed",
+          "targets": [
+            [
+              "129",
+              "noise_seed"
+            ]
+          ],
+          "hint": "-1 or empty = random"
+        },
+        {
+          "key": "model",
+          "label": "H3 model",
+          "type": "choice",
+          "targets": [
+            [
+              "127",
+              "unet_name"
+            ]
+          ],
+          "options": [
+            "minimax_h3_ref2va_pruned_int8_convrot.safetensors",
+            "Minimax-h3_Singularity_ref2va_v2_pruned_int8.safetensors"
+          ],
+          "default": "minimax_h3_ref2va_pruned_int8_convrot.safetensors",
+          "hint": "Singularity V2: a community fine-tune of H3 (sharper action, faces and camera moves); the official H3 otherwise"
+        }
+      ],
+      "outputs": {
+        "nodes": [
+          "92"
+        ],
+        "kind": "video"
+      },
+      "ui": [
+        "ui/h3-r2v.json"
+      ],
+      "prompt_tags": [
+        "<Picture 1>",
+        "<Picture 2>",
+        "<Audio 1>"
+      ],
+      "models": [
+        "h3-singularity-v2-pruned-int8",
+        "minimax-h3-audio-vae-fp32",
+        "minimax-h3-ref2va-pruned-int8-convrot",
+        "minimax-h3-video-vae-fp16",
+        "qwen3vl-32b-minimax-h3-int8-convrot"
+      ],
+      "custom_nodes": [
+        "rgthree-comfy"
+      ],
+      "extra_models": [
+        "h3-singularity-v2-pruned-int8"
+      ]
+    },
+    {
+      "id": "infinitetalk",
+      "title": "InfiniteTalk (long talking video)",
+      "category": "talking",
+      "summary": "Talking or singing video of any length from a picture and an audio track.",
+      "api": "api/infinitetalk.json",
+      "min_vram_gb": 24,
+      "est_gpu_minutes": 8.0,
+      "inputs": [
+        {
+          "key": "image",
+          "label": "Picture",
+          "type": "image",
+          "required": true,
+          "targets": [
+            [
+              "284",
+              "image"
+            ]
+          ]
+        },
+        {
+          "key": "audio",
+          "label": "Voice or song",
+          "type": "audio",
+          "required": true,
+          "targets": [
+            [
+              "125",
+              "audio"
+            ]
+          ]
+        },
+        {
+          "key": "prompt",
+          "label": "Prompt",
+          "type": "text",
+          "targets": [
+            [
+              "312",
+              "text"
+            ]
+          ]
+        },
+        {
+          "key": "width",
+          "label": "Width",
+          "type": "int",
+          "targets": [
+            [
+              "245",
+              "value"
+            ]
+          ],
+          "default": 1024,
+          "min": 256,
+          "max": 1280,
+          "step": 16,
+          "hint": "empty = the picture's aspect at about 0.8 MP"
+        },
+        {
+          "key": "height",
+          "label": "Height",
+          "type": "int",
+          "targets": [
+            [
+              "246",
+              "value"
+            ]
+          ],
+          "default": 768,
+          "min": 256,
+          "max": 1280,
+          "step": 16,
+          "hint": "empty = the picture's aspect at about 0.8 MP"
+        }
+      ],
+      "outputs": {
+        "nodes": [
+          "131"
+        ],
+        "kind": "video"
+      },
+      "ui": [
+        "ui/infinitetalk.json"
+      ],
+      "models": [
+        "clip-vision-h",
+        "lightx2v-i2v-14b-480p-cfg-step-distill-rank64-bf16",
+        "melbandroformer-fp32",
+        "umt5-xxl-fp8-e4m3fn-scaled",
+        "wan-2-1-vae",
+        "wan2-1-i2v-14b-480p-fp8-e4m3fn-scaled-kj",
+        "wan2-1-infinitetalk-single-fp8-e4m3fn-scaled-kj",
+        "wav2vec2-chinese-base-fp16"
+      ],
+      "custom_nodes": [
+        "comfyui-kjnodes",
+        "comfyui-melbandroformer",
+        "comfyui-videohelpersuite",
+        "comfyui-wanvideowrapper"
+      ],
+      "size_from": "image:area_896",
+      "size_targets": [
+        [
+          "245",
+          "value"
+        ],
+        [
+          "246",
+          "value"
+        ]
+      ],
+      "size_inputs": [
+        "width",
+        "height"
+      ]
+    },
+    {
+      "id": "infinitetalk-v2v",
+      "title": "InfiniteTalk Video Dubbing",
+      "category": "talking",
+      "summary": "Re-sync the lips of an existing video to a new audio track.",
+      "api": "api/infinitetalk-v2v.json",
+      "min_vram_gb": 24,
+      "est_gpu_minutes": 8.0,
+      "inputs": [
+        {
+          "key": "video",
+          "label": "Video",
+          "type": "video",
+          "required": true,
+          "targets": [
+            [
+              "228",
+              "video"
+            ]
+          ]
+        },
+        {
+          "key": "audio",
+          "label": "New audio",
+          "type": "audio",
+          "required": true,
+          "targets": [
+            [
+              "125",
+              "audio"
+            ]
+          ]
+        },
+        {
+          "key": "prompt",
+          "label": "Prompt",
+          "type": "text",
+          "targets": [
+            [
+              "241",
+              "positive_prompt"
+            ]
+          ]
+        },
+        {
+          "key": "width",
+          "label": "Width",
+          "type": "int",
+          "targets": [
+            [
+              "245",
+              "value"
+            ]
+          ],
+          "default": 640,
+          "min": 256,
+          "max": 1280,
+          "step": 16,
+          "hint": "empty = the video's aspect at about 0.4 MP"
+        },
+        {
+          "key": "height",
+          "label": "Height",
+          "type": "int",
+          "targets": [
+            [
+              "246",
+              "value"
+            ]
+          ],
+          "default": 640,
+          "min": 256,
+          "max": 1280,
+          "step": 16,
+          "hint": "empty = the video's aspect at about 0.4 MP"
+        }
+      ],
+      "outputs": {
+        "nodes": [
+          "131"
+        ],
+        "kind": "video"
+      },
+      "ui": [
+        "ui/infinitetalk-v2v.json"
+      ],
+      "models": [
+        "clip-vision-h",
+        "lightx2v-i2v-14b-480p-cfg-step-distill-rank64-bf16",
+        "melbandroformer-fp32",
+        "umt5-xxl-enc-bf16",
+        "wan-2-1-vae",
+        "wan2-1-i2v-14b-480p-fp8-e4m3fn-scaled-kj",
+        "wan2-1-infinitetalk-single-fp8-e4m3fn-scaled-kj",
+        "wav2vec2-chinese-base-fp16"
+      ],
+      "custom_nodes": [
+        "comfyui-kjnodes",
+        "comfyui-melbandroformer",
+        "comfyui-videohelpersuite",
+        "comfyui-wanvideowrapper"
+      ],
+      "size_from": "video:area_640",
+      "size_targets": [
+        [
+          "245",
+          "value"
+        ],
+        [
+          "246",
+          "value"
+        ]
+      ],
+      "size_inputs": [
+        "width",
+        "height"
+      ]
+    },
+    {
+      "id": "h3-character-swap",
+      "title": "H3 Character Swap",
+      "category": "character",
+      "summary": "Replace a person in a video with your character, keeping motion and sound.",
+      "api": "api/h3-character-swap.json",
+      "min_vram_gb": 48,
+      "est_gpu_minutes": 12.0,
+      "inputs": [
+        {
+          "key": "video",
+          "label": "Source video (up to 15 s)",
+          "type": "video",
+          "required": true,
+          "targets": [
+            [
+              "source",
+              "file"
+            ]
+          ]
+        },
+        {
+          "key": "character",
+          "label": "Character (Picture 1)",
+          "type": "image",
+          "required": true,
+          "targets": [
+            [
+              "reference",
+              "image"
+            ]
+          ]
+        },
+        {
+          "key": "character2",
+          "label": "Second view (Picture 2, optional)",
+          "type": "image",
+          "required": false,
+          "targets": [
+            [
+              "7",
+              "image"
+            ]
+          ],
+          "if_missing": "remove",
+          "remove_nodes": [
+            "7"
+          ]
+        },
+        {
+          "key": "prompt",
+          "label": "Prompt",
+          "type": "text",
+          "targets": [
+            [
+              "reference_conditioning",
+              "prompt"
+            ]
+          ]
+        },
+        {
+          "key": "subject",
+          "label": "Who to replace",
+          "type": "text",
+          "targets": [
+            [
+              "subject",
+              "text"
+            ]
+          ],
+          "default": "person"
+        },
+        {
+          "key": "resolution",
+          "label": "Resolution",
+          "type": "choice",
+          "targets": [
+            [
+              "prepare",
+              "resolution"
+            ]
+          ],
+          "options": [
+            "480",
+            "768"
+          ],
+          "default": "480"
+        },
+        {
+          "key": "duration",
+          "label": "Use first N seconds (0 = all)",
+          "type": "float",
+          "targets": [
+            [
+              "prepare",
+              "duration_seconds"
+            ]
+          ],
+          "default": 0,
+          "min": 0,
+          "max": 15,
+          "step": 0.5
+        },
+        {
+          "key": "seed",
+          "label": "Seed",
+          "type": "seed",
+          "targets": [
+            [
+              "plan",
+              "seed"
+            ]
+          ],
+          "hint": "-1 or empty = random"
+        }
+      ],
+      "outputs": {
+        "nodes": [
+          "save"
+        ],
+        "kind": "video"
+      },
+      "ui": [
+        "ui/h3-character-swap.json"
+      ],
+      "prompt_tags": [
+        "<Picture 1>",
+        "<Picture 2>",
+        "<Video 1>"
+      ],
+      "models": [
+        "h3-character-swap-v1-5",
+        "minimax-h3-audio-vae-fp32",
+        "minimax-h3-fl2v-turbo-8step-v1-0-768p-comfyui-bf16",
+        "minimax-h3-ref2va-pruned-int8-convrot",
+        "minimax-h3-video-vae-fp16",
+        "qwen3vl-32b-minimax-h3-int8-convrot",
+        "sam3-1-multiplex-fp16"
+      ],
+      "custom_nodes": [
+        "h3-relay"
+      ]
+    },
+    {
+      "id": "fasth3-omni",
+      "title": "Instant Scene + Sound (FastH3 Omni)",
+      "category": "instant",
+      "summary": "8-step MiniMax H3 distillation: pictures, videos and audio in, a scene with synced stereo sound out, in seconds.",
+      "api": "api/fasth3-omni.json",
+      "min_vram_gb": 32,
+      "est_gpu_minutes": 0.5,
+      "inputs": [
+        {
+          "key": "prompt",
+          "label": "Prompt",
+          "type": "text",
+          "targets": [
+            [
+              "138",
+              "value"
+            ]
+          ],
+          "hint": "Refer to your inputs as <Picture 1>, <Picture 2>, <Video 1>, <Audio 1>."
+        },
+        {
+          "key": "picture1",
+          "label": "Picture 1",
+          "type": "image",
+          "required": false,
+          "targets": [
+            [
+              "137",
+              "image"
+            ]
+          ],
+          "if_missing": "remove",
+          "remove_nodes": [
+            "137"
+          ]
+        },
+        {
+          "key": "picture2",
+          "label": "Picture 2",
+          "type": "image",
+          "required": false,
+          "targets": [
+            [
+              "139",
+              "image"
+            ]
+          ],
+          "if_missing": "remove",
+          "remove_nodes": [
+            "139"
+          ]
+        },
+        {
+          "key": "more_pictures",
+          "label": "Pictures 3-9",
+          "type": "image_list",
+          "required": false,
+          "max": 7,
+          "clone_node": "137",
+          "target_node": "136",
+          "input_prefix": "ref_images.ref_image_",
+          "start_index": 2
+        },
+        {
+          "key": "video1",
+          "label": "Video 1 (2-15 s, 24 fps)",
+          "type": "video",
+          "required": false,
+          "targets": [
+            [
+              "ref_video",
+              "file"
+            ]
+          ],
+          "if_missing": "remove",
+          "remove_nodes": [
+            "ref_video",
+            "ref_video_parts"
+          ]
+        },
+        {
+          "key": "audio1",
+          "label": "Audio 1",
+          "type": "audio",
+          "required": false,
+          "targets": [
+            [
+              "142",
+              "audio"
+            ]
+          ],
+          "if_missing": "remove",
+          "remove_nodes": [
+            "142"
+          ]
+        },
+        {
+          "key": "duration",
+          "label": "Seconds",
+          "type": "float",
+          "targets": [
+            [
+              "132",
+              "value"
+            ]
+          ],
+          "default": 5,
+          "min": 1,
+          "max": 15,
+          "step": 0.5
+        },
+        {
+          "key": "aspect_ratio",
+          "label": "Aspect ratio",
+          "type": "choice",
+          "targets": [
+            [
+              "115",
+              "aspect_ratio"
+            ]
+          ],
+          "options": [
+            "1:1 (Square)",
+            "16:9 (Widescreen)",
+            "9:16 (Portrait Widescreen)",
+            "4:3 (Standard)",
+            "3:4 (Portrait Standard)",
+            "21:9 (Ultrawide)",
+            "3:2 (Photo)",
+            "2:3 (Portrait Photo)"
+          ],
+          "default": "16:9 (Widescreen)",
+          "aspect_from": "picture1",
+          "hint": "empty = the aspect of the picture"
+        },
+        {
+          "key": "megapixels",
+          "label": "Megapixels",
+          "type": "float",
+          "targets": [
+            [
+              "115",
+              "megapixels"
+            ]
+          ],
+          "default": 0.98,
+          "min": 0.2,
+          "max": 1.0,
+          "step": 0.1,
+          "hint": "0.98 = H3's native 1344 x 768; 0.4 is a fast draft"
+        },
+        {
+          "key": "seed",
+          "label": "Seed",
+          "type": "seed",
+          "targets": [
+            [
+              "129",
+              "noise_seed"
+            ]
+          ],
+          "hint": "-1 or empty = random"
+        }
+      ],
+      "outputs": {
+        "nodes": [
+          "92"
+        ],
+        "kind": "video"
+      },
+      "ui": [
+        "ui/fasth3-omni-int8.json",
+        "ui/fasth3-omni-fp8.json"
+      ],
+      "prompt_tags": [
+        "<Picture 1>",
+        "<Picture 2>",
+        "<Picture 3>",
+        "<Video 1>",
+        "<Audio 1>"
+      ],
+      "badges": [
+        "speed"
+      ],
+      "variants": {
+        "lightvae": "api/fasth3-omni-lightvae.json"
+      },
+      "models": [
+        "fasth3-omniref-8step-pruned-int8-convrot",
+        "minimax-h3-audio-vae-fp32",
+        "minimax-h3-video-vae-fp16",
+        "qwen3vl-32b-minimax-h3-int8-convrot"
+      ],
+      "custom_nodes": []
+    },
+    {
+      "id": "fasth3-omni-lightvae",
+      "title": "Instant Scene + Sound (LightVAE decode)",
+      "category": "instant",
+      "summary": "FastH3 Omni with the LightVAE lite decoder for an even faster decode.",
+      "api": "api/fasth3-omni-lightvae.json",
+      "min_vram_gb": 32,
+      "est_gpu_minutes": 0.4,
+      "inputs": [
+        {
+          "key": "prompt",
+          "label": "Prompt",
+          "type": "text",
+          "targets": [
+            [
+              "138",
+              "value"
+            ]
+          ],
+          "hint": "Refer to your inputs as <Picture 1>, <Picture 2>, <Video 1>, <Audio 1>."
+        },
+        {
+          "key": "picture1",
+          "label": "Picture 1",
+          "type": "image",
+          "required": false,
+          "targets": [
+            [
+              "137",
+              "image"
+            ]
+          ],
+          "if_missing": "remove",
+          "remove_nodes": [
+            "137"
+          ]
+        },
+        {
+          "key": "picture2",
+          "label": "Picture 2",
+          "type": "image",
+          "required": false,
+          "targets": [
+            [
+              "139",
+              "image"
+            ]
+          ],
+          "if_missing": "remove",
+          "remove_nodes": [
+            "139"
+          ]
+        },
+        {
+          "key": "more_pictures",
+          "label": "Pictures 3-9",
+          "type": "image_list",
+          "required": false,
+          "max": 7,
+          "clone_node": "137",
+          "target_node": "136",
+          "input_prefix": "ref_images.ref_image_",
+          "start_index": 2
+        },
+        {
+          "key": "video1",
+          "label": "Video 1 (2-15 s, 24 fps)",
+          "type": "video",
+          "required": false,
+          "targets": [
+            [
+              "ref_video",
+              "file"
+            ]
+          ],
+          "if_missing": "remove",
+          "remove_nodes": [
+            "ref_video",
+            "ref_video_parts"
+          ]
+        },
+        {
+          "key": "audio1",
+          "label": "Audio 1",
+          "type": "audio",
+          "required": false,
+          "targets": [
+            [
+              "142",
+              "audio"
+            ]
+          ],
+          "if_missing": "remove",
+          "remove_nodes": [
+            "142"
+          ]
+        },
+        {
+          "key": "duration",
+          "label": "Seconds",
+          "type": "float",
+          "targets": [
+            [
+              "132",
+              "value"
+            ]
+          ],
+          "default": 5,
+          "min": 1,
+          "max": 15,
+          "step": 0.5
+        },
+        {
+          "key": "aspect_ratio",
+          "label": "Aspect ratio",
+          "type": "choice",
+          "targets": [
+            [
+              "115",
+              "aspect_ratio"
+            ]
+          ],
+          "options": [
+            "1:1 (Square)",
+            "16:9 (Widescreen)",
+            "9:16 (Portrait Widescreen)",
+            "4:3 (Standard)",
+            "3:4 (Portrait Standard)",
+            "21:9 (Ultrawide)",
+            "3:2 (Photo)",
+            "2:3 (Portrait Photo)"
+          ],
+          "default": "16:9 (Widescreen)",
+          "aspect_from": "picture1",
+          "hint": "empty = the aspect of the picture"
+        },
+        {
+          "key": "megapixels",
+          "label": "Megapixels",
+          "type": "float",
+          "targets": [
+            [
+              "115",
+              "megapixels"
+            ]
+          ],
+          "default": 0.98,
+          "min": 0.2,
+          "max": 1.0,
+          "step": 0.1,
+          "hint": "0.98 = H3's native 1344 x 768; 0.4 is a fast draft"
+        },
+        {
+          "key": "seed",
+          "label": "Seed",
+          "type": "seed",
+          "targets": [
+            [
+              "129",
+              "noise_seed"
+            ]
+          ],
+          "hint": "-1 or empty = random"
+        }
+      ],
+      "outputs": {
+        "nodes": [
+          "92"
+        ],
+        "kind": "video"
+      },
+      "prompt_tags": [
+        "<Picture 1>",
+        "<Picture 2>",
+        "<Video 1>",
+        "<Audio 1>"
+      ],
+      "badges": [
+        "speed"
+      ],
+      "hidden": true,
+      "models": [
+        "fasth3-omniref-8step-pruned-int8-convrot",
+        "lightvae-lite-h3-decoder",
+        "minimax-h3-audio-vae-fp32",
+        "minimax-h3-video-vae-fp16",
+        "qwen3vl-32b-minimax-h3-int8-convrot"
+      ],
+      "custom_nodes": [
+        "lightvae"
+      ]
+    },
+    {
+      "id": "seedvr2-image",
+      "title": "SeedVR2 Image Upscale",
+      "category": "upscale",
+      "summary": "One-step diffusion upscale of a picture to 1080p (3B FP8).",
+      "api": "api/seedvr2-image.json",
+      "min_vram_gb": 16,
+      "est_gpu_minutes": 0.3,
+      "inputs": [
+        {
+          "key": "image",
+          "label": "Image",
+          "type": "image",
+          "required": true,
+          "targets": [
+            [
+              "16",
+              "image"
+            ]
+          ]
+        },
+        {
+          "key": "resolution",
+          "label": "Short edge (px)",
+          "type": "int",
+          "targets": [
+            [
+              "10",
+              "resolution"
+            ]
+          ],
+          "default": 1080,
+          "min": 512,
+          "max": 4096,
+          "step": 8
+        }
+      ],
+      "outputs": {
+        "nodes": [
+          "15"
+        ],
+        "kind": "image"
+      },
+      "ui": [
+        "ui/seedvr2-image.json"
+      ],
+      "models": [
+        "ema-vae-fp16",
+        "seedvr2-ema-3b-fp8-e4m3fn"
+      ],
+      "custom_nodes": [
+        "comfyui-seedvr2-videoupscaler"
+      ]
+    },
+    {
+      "id": "seedvr2-image-4k",
+      "title": "SeedVR2 Image Upscale 4K (7B sharp)",
+      "category": "upscale",
+      "summary": "The 7B sharp model to 4K for maximum detail.",
+      "api": "api/seedvr2-image-4k.json",
+      "min_vram_gb": 24,
+      "est_gpu_minutes": 1.0,
+      "inputs": [
+        {
+          "key": "image",
+          "label": "Image",
+          "type": "image",
+          "required": true,
+          "targets": [
+            [
+              "16",
+              "image"
+            ]
+          ]
+        },
+        {
+          "key": "resolution",
+          "label": "Short edge (px)",
+          "type": "int",
+          "targets": [
+            [
+              "10",
+              "resolution"
+            ]
+          ],
+          "default": 4096,
+          "min": 1024,
+          "max": 4096,
+          "step": 8
+        }
+      ],
+      "outputs": {
+        "nodes": [
+          "15"
+        ],
+        "kind": "image"
+      },
+      "ui": [
+        "ui/seedvr2-image-4k.json"
+      ],
+      "models": [
+        "ema-vae-fp16",
+        "seedvr2-ema-7b-sharp-fp16"
+      ],
+      "custom_nodes": [
+        "comfyui-seedvr2-videoupscaler"
+      ]
+    },
+    {
+      "id": "seedvr2-video",
+      "title": "SeedVR2 Video Upscale",
+      "category": "upscale",
+      "summary": "One-step diffusion video upscale to 1080p, keeping the sound.",
+      "api": "api/seedvr2-video.json",
+      "min_vram_gb": 24,
+      "est_gpu_minutes": 5.0,
+      "inputs": [
+        {
+          "key": "video",
+          "label": "Video",
+          "type": "video",
+          "required": true,
+          "targets": [
+            [
+              "27",
+              "video"
+            ]
+          ]
+        },
+        {
+          "key": "resolution",
+          "label": "Short edge (px)",
+          "type": "int",
+          "targets": [
+            [
+              "10",
+              "resolution"
+            ]
+          ],
+          "default": 1080,
+          "min": 512,
+          "max": 2160,
+          "step": 8
+        }
+      ],
+      "outputs": {
+        "nodes": [
+          "26"
+        ],
+        "kind": "video"
+      },
+      "ui": [
+        "ui/seedvr2-video.json"
+      ],
+      "models": [
+        "ema-vae-fp16",
+        "seedvr2-ema-3b-fp16"
+      ],
+      "custom_nodes": [
+        "comfyui-seedvr2-videoupscaler",
+        "comfyui-videohelpersuite"
+      ]
+    },
+    {
+      "id": "flashvsr-restore",
+      "title": "FlashVSR Video Restore",
+      "category": "upscale",
+      "summary": "Fast video super-resolution with restoration of compression artifacts.",
+      "api": "api/flashvsr-restore.json",
+      "min_vram_gb": 16,
+      "est_gpu_minutes": 4.0,
+      "inputs": [
+        {
+          "key": "video",
+          "label": "Video",
+          "type": "video",
+          "required": true,
+          "targets": [
+            [
+              "6",
+              "file"
+            ]
+          ]
+        }
+      ],
+      "outputs": {
+        "nodes": [
+          "9"
+        ],
+        "kind": "video"
+      },
+      "ui": [
+        "ui/flashvsr-restore.json"
+      ],
+      "models": [],
+      "custom_nodes": [
+        "comfyui-flashvsr-ultra-fast"
+      ]
+    },
+    {
+      "id": "rtx-image-upscale",
+      "title": "RTX Image Upscale",
+      "category": "upscale",
+      "summary": "Instant upscale with NVIDIA RTX Video Super Resolution, no diffusion.",
+      "api": "api/rtx-image-upscale.json",
+      "min_vram_gb": 4,
+      "est_gpu_minutes": 0.02,
+      "badges": [
+        "nvidia-rtx"
+      ],
+      "inputs": [
+        {
+          "key": "image",
+          "label": "Image",
+          "type": "image",
+          "required": true,
+          "targets": [
+            [
+              "2",
+              "image"
+            ]
+          ]
+        },
+        {
+          "key": "scale",
+          "label": "Scale",
+          "type": "float",
+          "targets": [
+            [
+              "1",
+              "resize_type.scale"
+            ]
+          ],
+          "default": 2.0,
+          "min": 1.0,
+          "max": 4.0,
+          "step": 0.25
+        },
+        {
+          "key": "quality",
+          "label": "Quality",
+          "type": "choice",
+          "targets": [
+            [
+              "1",
+              "quality"
+            ]
+          ],
+          "options": [
+            "LOW",
+            "MEDIUM",
+            "HIGH",
+            "ULTRA",
+            "HIGHBITRATE_ULTRA"
+          ],
+          "default": "ULTRA",
+          "hint": "HIGHBITRATE_ULTRA for clean, high-bitrate sources"
+        }
+      ],
+      "outputs": {
+        "nodes": [
+          "3"
+        ],
+        "kind": "image"
+      },
+      "ui": [
+        "ui/rtx-image-upscale.json"
+      ],
+      "license_note": "Runs NVIDIA RTX Video Super Resolution through nvidia-vfx, NVIDIA's proprietary SDK (free to use on NVIDIA RTX GPUs; not open source). Hidden in the 100% open weights profile.",
+      "models": [],
+      "custom_nodes": [
+        "comfyui-nvidia-rtx-nodes"
+      ]
+    },
+    {
+      "id": "rtx-video-upscale",
+      "title": "RTX Video Upscale",
+      "category": "upscale",
+      "summary": "Fast video upscale with NVIDIA RTX Video Super Resolution, keeping the sound.",
+      "api": "api/rtx-video-upscale.json",
+      "min_vram_gb": 8,
+      "est_gpu_minutes": 0.5,
+      "badges": [
+        "nvidia-rtx"
+      ],
+      "inputs": [
+        {
+          "key": "video",
+          "label": "Video",
+          "type": "video",
+          "required": true,
+          "targets": [
+            [
+              "6",
+              "file"
+            ]
+          ]
+        },
+        {
+          "key": "scale",
+          "label": "Scale",
+          "type": "float",
+          "targets": [
+            [
+              "1",
+              "resize_type.scale"
+            ]
+          ],
+          "default": 2.0,
+          "min": 1.0,
+          "max": 4.0,
+          "step": 0.25,
+          "hint": "short clips: every frame is held in RAM"
+        },
+        {
+          "key": "quality",
+          "label": "Quality",
+          "type": "choice",
+          "targets": [
+            [
+              "1",
+              "quality"
+            ]
+          ],
+          "options": [
+            "LOW",
+            "MEDIUM",
+            "HIGH",
+            "ULTRA",
+            "HIGHBITRATE_ULTRA"
+          ],
+          "default": "ULTRA",
+          "hint": "HIGHBITRATE_ULTRA for clean, high-bitrate sources"
+        }
+      ],
+      "outputs": {
+        "nodes": [
+          "9"
+        ],
+        "kind": "video"
+      },
+      "ui": [
+        "ui/rtx-video-upscale.json"
+      ],
+      "license_note": "Runs NVIDIA RTX Video Super Resolution through nvidia-vfx, NVIDIA's proprietary SDK (free to use on NVIDIA RTX GPUs; not open source). Hidden in the 100% open weights profile.",
+      "models": [],
+      "custom_nodes": [
+        "comfyui-nvidia-rtx-nodes"
+      ]
+    },
+    {
+      "id": "qwen-upscale",
+      "title": "Qwen 2K Upscale",
+      "category": "upscale",
+      "summary": "Generative 2K upscale with Qwen Image Edit 2511.",
+      "api": "api/qwen-upscale.json",
+      "min_vram_gb": 48,
+      "est_gpu_minutes": 0.5,
+      "inputs": [
+        {
+          "key": "image",
+          "label": "Image",
+          "type": "image",
+          "required": true,
+          "targets": [
+            [
+              "103",
+              "image"
+            ]
+          ]
+        },
+        {
+          "key": "seed",
+          "label": "Seed",
+          "type": "seed",
+          "targets": [
+            [
+              "99",
+              "seed"
+            ]
+          ],
+          "hint": "-1 or empty = random"
+        }
+      ],
+      "outputs": {
+        "nodes": [
+          "119"
+        ],
+        "kind": "image"
+      },
+      "ui": [
+        "ui/qwen-upscale.json"
+      ],
+      "models": [
+        "qwen-2-5-vl-7b-fp8-scaled",
+        "qwen-image-edit-2511-bf16",
+        "qwen-image-edit-2511-lightning-8steps-v1-0-bf16",
+        "qwen-image-edit-2511-upscale",
+        "qwen-image-vae"
+      ],
+      "custom_nodes": [
+        "comfyroll",
+        "comfyui-layerstyle",
+        "rgthree-comfy"
+      ]
+    },
+    {
+      "id": "simple-upscale",
+      "title": "Simple Upscale (Real-ESRGAN x2)",
+      "category": "upscale",
+      "summary": "Quick 2x upscale, no diffusion.",
+      "api": "api/simple-upscale.json",
+      "min_vram_gb": 4,
+      "est_gpu_minutes": 0.05,
+      "inputs": [
+        {
+          "key": "image",
+          "label": "Image",
+          "type": "image",
+          "required": true,
+          "targets": [
+            [
+              "8",
+              "image"
+            ]
+          ]
+        }
+      ],
+      "outputs": {
+        "nodes": [
+          "9"
+        ],
+        "kind": "image"
+      },
+      "ui": [
+        "ui/simple-upscale.json"
+      ],
+      "models": [
+        "realesrgan-x2"
+      ],
+      "custom_nodes": []
+    },
+    {
+      "id": "frame-interpolation",
+      "title": "Frame Interpolation (RIFE)",
+      "category": "upscale",
+      "summary": "Smooth a video to a higher frame rate with RIFE 4.9.",
+      "api": "api/frame-interpolation.json",
+      "min_vram_gb": 8,
+      "est_gpu_minutes": 0.5,
+      "inputs": [
+        {
+          "key": "video",
+          "label": "Video",
+          "type": "video",
+          "required": true,
+          "targets": [
+            [
+              "3",
+              "video"
+            ]
+          ]
+        },
+        {
+          "key": "fps",
+          "label": "Output fps",
+          "type": "int",
+          "targets": [
+            [
+              "1",
+              "frame_rate"
+            ]
+          ],
+          "default": 50,
+          "min": 24,
+          "max": 120,
+          "step": 1
+        }
+      ],
+      "outputs": {
+        "nodes": [
+          "1"
+        ],
+        "kind": "video"
+      },
+      "ui": [
+        "ui/frame-interpolation.json"
+      ],
+      "models": [
+        "rife49"
+      ],
+      "custom_nodes": [
+        "comfyui-frame-interpolation",
+        "comfyui-videohelpersuite"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,26 @@
+# Version windows for the ComfyUI venv on the volume: the owner's proven Runpod setup.
+# setup_volume.py and install_nodes.py pass this file to every pip install after torch, together with a freeze of
+# the fragile core (transformers, tokenizers, torch*, numpy, huggingface-hub, safetensors, accelerate, diffusers).
+# A constraint only pins a package when something installs it; nothing here is installed on its own.
+numpy==1.26.4
+pillow<12
+protobuf>=3.20.2,<6.0.0
+transformers>=4.57,<4.58
+tokenizers>=0.22,<0.23
+# transformers 4.57 needs huggingface-hub < 1.0; without this, a new diffusers pulls hub 2.x and breaks transformers
+huggingface-hub<1.0
+# diffusers 0.40+ needs huggingface-hub >= 1.23
+diffusers<0.40
+# onnxruntime-gpu 1.20.2 + numpy<2 + pillow<12 belong together (rembg, the ONNX pose and matting models)
+onnxruntime-gpu==1.20.2
+rembg==2.0.56
+opencv-python<4.12
+opencv-python-headless<4.12
+opencv-contrib-python<4.12
+imageio>=2.34,<3
+imageio-ffmpeg>=0.6,<0.7
+moviepy==2.2.1
+librosa==0.10.2
+numba>=0.62
+ninja~=1.11.1.4
+# The reference pins av>=16,<17; ComfyUI 0.42 itself requires av>=17, so the ComfyUI pin wins (no window here).

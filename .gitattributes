@@ -1,0 +1,10 @@
+# Files that run inside the Linux image keep LF line endings on every checkout (also on Windows).
+* text=auto
+*.sh text eol=lf
+Dockerfile text eol=lf
+*.hcl text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf
+.env.example text eol=lf
+# read inside the image too (setup_volume.py compares the version windows by content)
+backend/docker/*.txt text eol=lf

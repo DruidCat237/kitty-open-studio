@@ -1,0 +1,334 @@
+{
+  "11": {
+    "inputs": {
+      "image": "example_image.png"
+    },
+    "class_type": "LoadImage",
+    "_meta": {
+      "title": "Input Image + Inpaint Mask"
+    }
+  },
+  "119": {
+    "inputs": {
+      "pixels": [
+        "158",
+        0
+      ],
+      "vae": [
+        "178",
+        0
+      ]
+    },
+    "class_type": "VAEEncode",
+    "_meta": {
+      "title": "VAE Encode"
+    }
+  },
+  "126": {
+    "inputs": {
+      "samples": [
+        "119",
+        0
+      ],
+      "mask": [
+        "148",
+        0
+      ]
+    },
+    "class_type": "SetLatentNoiseMask",
+    "_meta": {
+      "title": "Set Latent Noise Mask"
+    }
+  },
+  "128": {
+    "inputs": {
+      "expand": 2,
+      "incremental_expandrate": 0,
+      "tapered_corners": true,
+      "flip_input": false,
+      "blur_radius": 20,
+      "lerp_alpha": 1,
+      "decay_factor": 1,
+      "fill_holes": false,
+      "mask": [
+        "11",
+        1
+      ]
+    },
+    "class_type": "GrowMaskWithBlur",
+    "_meta": {
+      "title": "Grow Mask With Blur"
+    }
+  },
+  "129": {
+    "inputs": {
+      "pixels": [
+        "138",
+        0
+      ],
+      "vae": [
+        "178",
+        0
+      ]
+    },
+    "class_type": "VAEEncode",
+    "_meta": {
+      "title": "VAE Encode"
+    }
+  },
+  "130": {
+    "inputs": {
+      "samples": [
+        "129",
+        0
+      ],
+      "vae": [
+        "178",
+        0
+      ]
+    },
+    "class_type": "VAEDecode",
+    "_meta": {
+      "title": "VAE Decode"
+    }
+  },
+  "132": {
+    "inputs": {
+      "image": [
+        "130",
+        0
+      ]
+    },
+    "class_type": "GetImageSize",
+    "_meta": {
+      "title": "Get Image Size"
+    }
+  },
+  "134": {
+    "inputs": {
+      "image": "example_image2.png"
+    },
+    "class_type": "LoadImage",
+    "_meta": {
+      "title": "Reference 2 - Original Scene"
+    }
+  },
+  "136": {
+    "inputs": {
+      "image": "example_image2.png"
+    },
+    "class_type": "LoadImage",
+    "_meta": {
+      "title": "Reference 3 - Original Scene"
+    }
+  },
+  "138": {
+    "inputs": {
+      "upscale_method": "lanczos",
+      "largest_size": [
+        "172",
+        0
+      ],
+      "image": [
+        "11",
+        0
+      ]
+    },
+    "class_type": "ImageScaleToMaxDimension",
+    "_meta": {
+      "title": "Scale Image to Max Dimension"
+    }
+  },
+  "148": {
+    "inputs": {
+      "width": [
+        "132",
+        0
+      ],
+      "height": [
+        "132",
+        1
+      ],
+      "keep_proportions": true,
+      "upscale_method": "lanczos",
+      "crop": "center",
+      "mask": [
+        "128",
+        0
+      ]
+    },
+    "class_type": "ResizeMask",
+    "_meta": {
+      "title": "Resize Mask"
+    }
+  },
+  "158": {
+    "inputs": {
+      "upscale_method": "lanczos",
+      "width": [
+        "132",
+        0
+      ],
+      "height": [
+        "132",
+        1
+      ],
+      "crop": "center",
+      "image": [
+        "11",
+        0
+      ]
+    },
+    "class_type": "ImageScale",
+    "_meta": {
+      "title": "Upscale Image"
+    }
+  },
+  "165": {
+    "inputs": {
+      "value": "Add one realistic freestanding teak garden bench on the lawn at the right. Show the entire bench, including all four long sturdy wooden legs extending down from the elevated seat to the grass. The seat is at normal adult knee height, with a large clearly visible open space underneath. The complete bench is fully contained within the edited region with grass around all sides. Natural perspective and contact shadows matching the golden evening sunlight. Preserve the house, oak tree, flowers, coastline, camera and surrounding landscape. Images 2 and 3 are the original scene as preservation references."
+    },
+    "class_type": "PrimitiveStringMultiline",
+    "_meta": {
+      "title": "Edit Instructions"
+    }
+  },
+  "172": {
+    "inputs": {
+      "value": 2048
+    },
+    "class_type": "ImpactInt",
+    "_meta": {
+      "title": "ImpactInt"
+    }
+  },
+  "177": {
+    "inputs": {
+      "clip_name": "qwen3vl_8b_bf16.safetensors",
+      "type": "qwen_image",
+      "device": "default"
+    },
+    "class_type": "CLIPLoader",
+    "_meta": {
+      "title": "Load CLIP"
+    }
+  },
+  "178": {
+    "inputs": {
+      "vae_name": "qwen_image_2.1_vae_bf16.safetensors"
+    },
+    "class_type": "VAELoader",
+    "_meta": {
+      "title": "Load VAE"
+    }
+  },
+  "191": {
+    "inputs": {
+      "prompt": [
+        "165",
+        0
+      ],
+      "negative_prompt": "",
+      "resolution": [
+        "172",
+        0
+      ],
+      "clip": [
+        "177",
+        0
+      ],
+      "images.image_1": [
+        "158",
+        0
+      ],
+      "images.image_2": [
+        "134",
+        0
+      ],
+      "images.image_3": [
+        "136",
+        0
+      ],
+      "vae": [
+        "178",
+        0
+      ]
+    },
+    "class_type": "TextEncodeQwenImage21",
+    "_meta": {
+      "title": "Text Encode Qwen Image 2.1"
+    }
+  },
+  "192": {
+    "inputs": {
+      "unet_name": "qwen_image_2.1_bf16.safetensors",
+      "weight_dtype": "default"
+    },
+    "class_type": "UNETLoader",
+    "_meta": {
+      "title": "Load Diffusion Model"
+    }
+  },
+  "193": {
+    "inputs": {
+      "add_noise": "enable",
+      "noise_seed": 152401,
+      "steps": 30,
+      "cfg": 1,
+      "sampler_name": "euler",
+      "scheduler": "simple",
+      "start_at_step": 0,
+      "end_at_step": 10000,
+      "return_with_leftover_noise": "disable",
+      "model": [
+        "192",
+        0
+      ],
+      "positive": [
+        "191",
+        0
+      ],
+      "negative": [
+        "191",
+        1
+      ],
+      "latent_image": [
+        "126",
+        0
+      ]
+    },
+    "class_type": "KSamplerAdvanced",
+    "_meta": {
+      "title": "KSampler (Advanced)"
+    }
+  },
+  "194": {
+    "inputs": {
+      "samples": [
+        "193",
+        0
+      ],
+      "vae": [
+        "178",
+        0
+      ]
+    },
+    "class_type": "VAEDecode",
+    "_meta": {
+      "title": "VAE Decode"
+    }
+  },
+  "201": {
+    "inputs": {
+      "filename_prefix": "KittyOpenStudio/qwen-image-inpaint",
+      "images": [
+        "194",
+        0
+      ]
+    },
+    "class_type": "SaveImage",
+    "_meta": {
+      "title": "Save Image"
+    }
+  }
+}

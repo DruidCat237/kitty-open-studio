@@ -1,0 +1,58 @@
+name: Backend checks
+
+on:
+  push:
+    paths: ["backend/**", "docs/**", ".github/workflows/backend.yml"]
+  pull_request:
+    paths: ["backend/**", "docs/**", ".github/workflows/backend.yml"]
+
+permissions:
+  contents: read
+
+jobs:
+  python:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install test tools
+        run: pip install -r backend/requirements-dev.txt
+      - name: Compile every Python file
+        run: python -m compileall -q backend
+      - name: Validate every JSON file
+        run: |
+          python - <<'PY'
+          import json, pathlib, sys
+          bad = []
+          for p in pathlib.Path("backend").rglob("*.json"):
+              try:
+                  json.loads(p.read_text(encoding="utf-8"))
+              except Exception as e:
+                  bad.append(f"{p}: {e}")
+          print("\n".join(bad) or "all JSON files parse")
+          sys.exit(1 if bad else 0)
+          PY
+      - name: Manifests, workflows, node packs, forbidden words
+        run: python backend/tools/manifest.py check
+      - name: Generated docs are up to date
+        run: |
+          python backend/tools/manifest.py docs
+          git diff --exit-code docs/models.md docs/workflows.md docs/nodes.md
+      - name: Lint
+        run: ruff check --config backend/ruff.toml backend
+      - name: Tests
+        run: pytest -q backend/tests
+
+  container:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Dockerfile lint
+        uses: hadolint/hadolint-action@v3.1.0
+        with:
+          dockerfile: backend/docker/Dockerfile
+          failure-threshold: error
+      - name: Shell lint
+        run: shellcheck backend/docker/*.sh

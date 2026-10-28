@@ -1,0 +1,71 @@
+{
+  "schema_version": 1,
+  "about": "Installer presets: a preset is a list of workflows; the installer downloads every model those workflows need.",
+  "presets": [
+    {
+      "id": "starter",
+      "title": "Starter 66 GB",
+      "summary": "Qwen Image 2.1 text to image, SeedVR2 and Real-ESRGAN upscales, and InfiniteTalk talking videos. No Hugging Face token needed.",
+      "workflows": [
+        "qwen-image-t2i",
+        "seedvr2-image",
+        "simple-upscale",
+        "infinitetalk"
+      ]
+    },
+    {
+      "id": "flux3",
+      "title": "FLUX 3 Klein 11 GB",
+      "summary": "FLUX 3 Image Klein text to image and editing with up to 4 references. Gated: accept the license on Hugging Face and set HF_TOKEN.",
+      "workflows": [
+        "flux3-klein",
+        "flux3-klein-edit"
+      ]
+    },
+    {
+      "id": "instant",
+      "title": "Instant scene + sound",
+      "summary": "FastH3 Omni: pictures, video and audio in, a scene with synced sound out, in 8 steps.",
+      "workflows": [
+        "fasth3-omni",
+        "fasth3-omni-lightvae"
+      ]
+    },
+    {
+      "id": "video",
+      "title": "Video",
+      "summary": "LTX 2.5 (text, image, first-last frame, with sound), Wan 2.2 image-to-video and transitions, RIFE and SeedVR2 video upscale. LTX 2.5 needs HF_TOKEN.",
+      "workflows": [
+        "ltx25-t2v",
+        "ltx25-i2v",
+        "ltx25-flf",
+        "wan22-i2v-fast",
+        "wan22-flf",
+        "frame-interpolation",
+        "seedvr2-video"
+      ]
+    },
+    {
+      "id": "talking-h3",
+      "title": "Talking + H3",
+      "summary": "MiniMax H3 image-to-video, talking pictures, reference-to-video, Character Swap, FastH3 Omni and InfiniteTalk, and SolarRenderer (structure video to cinematic clip).",
+      "workflows": [
+        "h3-i2v",
+        "h3-talk",
+        "h3-r2v",
+        "h3-character-swap",
+        "fasth3-omni",
+        "infinitetalk",
+        "solar-render"
+      ]
+    },
+    {
+      "id": "everything",
+      "title": "Everything",
+      "summary": "Every model of every workflow. Big: check the size and the monthly storage cost first.",
+      "workflows": [
+        "*"
+      ]
+    }
+  ]
+}

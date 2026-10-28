@@ -1,0 +1,1194 @@
+{
+  "last_node_id": 23,
+  "last_link_id": 22,
+  "nodes": [
+    {
+      "id": 1,
+      "type": "UNETLoader",
+      "pos": [
+        20.0,
+        70.0
+      ],
+      "size": [
+        320.0,
+        120.0
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "MODEL",
+          "type": "MODEL",
+          "links": [
+            1
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "UNETLoader",
+        "cnr_id": "comfy-core",
+        "models": [
+          {
+            "name": "minimax_h3_ref2va_pruned_int8_convrot.safetensors",
+            "url": "https://huggingface.co/Comfy-Org/MiniMax-H3/resolve/main/diffusion_models/minimax_h3_ref2va_pruned_int8_convrot.safetensors",
+            "directory": "diffusion_models"
+          }
+        ]
+      },
+      "widgets_values": [
+        "minimax_h3_ref2va_pruned_int8_convrot.safetensors",
+        "default"
+      ],
+      "title": "Load MiniMax H3 (ref2va)"
+    },
+    {
+      "id": 2,
+      "type": "SolarRendererLoraLoader",
+      "pos": [
+        380.0,
+        70.0
+      ],
+      "size": [
+        320.0,
+        120.0
+      ],
+      "flags": {},
+      "order": 1,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 1
+        }
+      ],
+      "outputs": [
+        {
+          "name": "MODEL",
+          "type": "MODEL",
+          "links": [
+            2
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "SolarRendererLoraLoader",
+        "aux_id": "SolarRenderer",
+        "models": [
+          {
+            "name": "solarrenderer_4step_lora.safetensors",
+            "url": "https://huggingface.co/Enderfga/SolarRenderer/resolve/main/solarrenderer_4step_lora.safetensors",
+            "directory": "loras"
+          }
+        ]
+      },
+      "widgets_values": [
+        "solarrenderer_4step_lora.safetensors",
+        1.0
+      ],
+      "title": "SolarRenderer four-step LoRA"
+    },
+    {
+      "id": 3,
+      "type": "SolarRendererLoraLoader",
+      "pos": [
+        740.0,
+        70.0
+      ],
+      "size": [
+        320.0,
+        120.0
+      ],
+      "flags": {},
+      "order": 2,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 2
+        }
+      ],
+      "outputs": [
+        {
+          "name": "MODEL",
+          "type": "MODEL",
+          "links": [
+            3
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "SolarRendererLoraLoader",
+        "aux_id": "SolarRenderer",
+        "models": [
+          {
+            "name": "solarrenderer_control_lora.safetensors",
+            "url": "https://huggingface.co/Enderfga/SolarRenderer/resolve/main/solarrenderer_control_lora.safetensors",
+            "directory": "loras"
+          }
+        ]
+      },
+      "widgets_values": [
+        "solarrenderer_control_lora.safetensors",
+        1.0
+      ],
+      "title": "SolarRenderer control LoRA"
+    },
+    {
+      "id": 21,
+      "type": "SolarRendererFastAttention",
+      "pos": [
+        1580.0,
+        276.0
+      ],
+      "size": [
+        320.0,
+        94.0
+      ],
+      "flags": {},
+      "order": 3,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 3
+        }
+      ],
+      "outputs": [
+        {
+          "name": "MODEL",
+          "type": "MODEL",
+          "links": [
+            4
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "SolarRendererFastAttention",
+        "aux_id": "SolarRenderer"
+      },
+      "widgets_values": [
+        "auto"
+      ],
+      "title": "Fast attention (bypass if slower)"
+    },
+    {
+      "id": 4,
+      "type": "SolarRendererModel",
+      "pos": [
+        1940.0,
+        492.0
+      ],
+      "size": [
+        320.0,
+        120.0
+      ],
+      "flags": {},
+      "order": 4,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 4
+        }
+      ],
+      "outputs": [
+        {
+          "name": "MODEL",
+          "type": "MODEL",
+          "links": [
+            11
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "SolarRendererModel",
+        "aux_id": "SolarRenderer"
+      },
+      "widgets_values": [
+        0,
+        "randomize"
+      ],
+      "title": "Silent soundtrack while sampling"
+    },
+    {
+      "id": 5,
+      "type": "CLIPLoader",
+      "pos": [
+        20.0,
+        240.0
+      ],
+      "size": [
+        320.0,
+        146.0
+      ],
+      "flags": {},
+      "order": 5,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "CLIP",
+          "type": "CLIP",
+          "links": [
+            6
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "CLIPLoader",
+        "cnr_id": "comfy-core",
+        "models": [
+          {
+            "name": "qwen3vl_32b_minimax_h3_int8_convrot.safetensors",
+            "url": "https://huggingface.co/Comfy-Org/MiniMax-H3/resolve/main/text_encoders/qwen3vl_32b_minimax_h3_int8_convrot.safetensors",
+            "directory": "text_encoders"
+          }
+        ]
+      },
+      "widgets_values": [
+        "qwen3vl_32b_minimax_h3_int8_convrot.safetensors",
+        "minimax",
+        "default"
+      ],
+      "title": "Load Text Encoder"
+    },
+    {
+      "id": 6,
+      "type": "VAELoader",
+      "pos": [
+        20.0,
+        436.0
+      ],
+      "size": [
+        320.0,
+        94.0
+      ],
+      "flags": {},
+      "order": 6,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "VAE",
+          "type": "VAE",
+          "links": [
+            7,
+            20
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "VAELoader",
+        "cnr_id": "comfy-core",
+        "models": [
+          {
+            "name": "minimax_h3_video_vae_fp16.safetensors",
+            "url": "https://huggingface.co/Comfy-Org/MiniMax-H3/resolve/main/vae/minimax_h3_video_vae_fp16.safetensors",
+            "directory": "vae"
+          }
+        ]
+      },
+      "widgets_values": [
+        "minimax_h3_video_vae_fp16.safetensors"
+      ]
+    },
+    {
+      "id": 7,
+      "type": "LoadVideo",
+      "pos": [
+        1130.0,
+        70.0
+      ],
+      "size": [
+        320.0,
+        420.0
+      ],
+      "flags": {},
+      "order": 7,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "VIDEO",
+          "type": "VIDEO",
+          "links": [
+            5
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "LoadVideo",
+        "cnr_id": "comfy-core"
+      },
+      "widgets_values": [
+        "example_video.mp4",
+        "image"
+      ],
+      "title": "Structure video (grey boxes, depth, skeletons, a sketch...)"
+    },
+    {
+      "id": 8,
+      "type": "GetVideoComponents",
+      "pos": [
+        1580.0,
+        70.0
+      ],
+      "size": [
+        320.0,
+        156.0
+      ],
+      "flags": {},
+      "order": 8,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "video",
+          "type": "VIDEO",
+          "link": 5
+        }
+      ],
+      "outputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "links": [
+            8
+          ]
+        },
+        {
+          "name": "audio",
+          "type": "AUDIO",
+          "links": []
+        },
+        {
+          "name": "fps",
+          "type": "FLOAT",
+          "links": []
+        },
+        {
+          "name": "bit_depth",
+          "type": "COMBO",
+          "links": []
+        },
+        {
+          "name": "color_space",
+          "type": "COMBO",
+          "links": []
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "GetVideoComponents",
+        "cnr_id": "comfy-core"
+      }
+    },
+    {
+      "id": 9,
+      "type": "LoadImage",
+      "pos": [
+        1130.0,
+        540.0
+      ],
+      "size": [
+        320.0,
+        442.0
+      ],
+      "flags": {},
+      "order": 9,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            10
+          ]
+        },
+        {
+          "name": "MASK",
+          "type": "MASK",
+          "links": []
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "LoadImage",
+        "cnr_id": "comfy-core"
+      },
+      "widgets_values": [
+        "example_image.png",
+        "image"
+      ],
+      "title": "First frame (the look)"
+    },
+    {
+      "id": 22,
+      "type": "SolarRendererPrompt",
+      "pos": [
+        1130.0,
+        1032.0
+      ],
+      "size": [
+        380.0,
+        520.0
+      ],
+      "flags": {},
+      "order": 10,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "prompt",
+          "type": "STRING",
+          "links": [
+            9
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "SolarRendererPrompt",
+        "aux_id": "SolarRenderer"
+      },
+      "widgets_values": [
+        "semantic",
+        true,
+        "The target video begins from <Video 2> and follows the frame-by-frame structure and motion of <Video 1>. A retro synthwave highway run: a neon-trimmed coupe overtakes a glowing semi-truck, flies under a neon gantry and overpass at dusk, and slides back into its lane.",
+        "The target video is a stylised synthwave animation in the look of an eighties retro-futuristic music video, with a magenta-to-violet sunset gradient sky, a huge striped setting sun on the horizon, neon pink and cyan edge lighting, glossy reflective surfaces and a light film grain. [Shot 1] The shot begins from <Video 2>. The camera trails a few metres behind and above a black wedge-shaped sports coupe with a glowing cyan light strip across its tail, in the right lane of a six-lane divided highway whose lane lines glow hot pink. Ahead sits the back of a chrome semi-trailer outlined in purple neon, pulled by a tractor with a glowing grille. After half a second the coupe glides left into the middle lane, the camera tilting with it, and begins to close on the truck. The trailer's mirror-like side slides by on the right, reflecting the sunset, then its glowing wheels and the cab with chrome stacks, passing within a couple of metres. Midway, a gantry with two glowing signs in retro lettering sweeps overhead. Further up the road, tail lights of an SUV and a sedan streak away in the fast lane, with a hatchback, a box truck and a van glowing ahead. Across a dark median lined with tall lamp posts topped by pink light bars, oncoming cars and a coach race past as streaks of white light. Near the end the coupe flashes under a concrete overpass trimmed with neon tubes, while a glowing SUV and a delivery truck cross above, their light trails painting streaks along the bridge railing. Clear of the truck, the coupe slides back into the right lane toward the setting sun. The coupe stays planted through every move, rocking slightly over expansion joints, and the camera follows with a slight lag so each lane change feels smooth, heavy and rhythmic, like a slow camera move in a music video. Guard rails gleam with reflected pink light, palm-like trees and stylised pines stand as black silhouettes, utility poles and their wires cut thin lines across the gradient sky, and low warehouses with glowing windows and purple hills fade toward a wireframe-like horizon.",
+        "Smooth tyre roar and wind with a punchy engine note as the coupe overtakes, a deep whoosh past the truck and a hollow echo under the overpass.",
+        "",
+        ""
+      ],
+      "title": "SolarRenderer Prompt (six-part form)"
+    },
+    {
+      "id": 10,
+      "type": "SolarRendererConditioning",
+      "pos": [
+        1940.0,
+        70.0
+      ],
+      "size": [
+        380.0,
+        372.0
+      ],
+      "flags": {},
+      "order": 11,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "clip",
+          "type": "CLIP",
+          "link": 6
+        },
+        {
+          "name": "vae",
+          "type": "VAE",
+          "link": 7
+        },
+        {
+          "name": "structure",
+          "type": "IMAGE",
+          "link": 8
+        },
+        {
+          "name": "prompt",
+          "type": "STRING",
+          "widget": {
+            "name": "prompt"
+          },
+          "link": 9
+        },
+        {
+          "name": "first_frame",
+          "type": "IMAGE",
+          "link": 10,
+          "shape": 7
+        },
+        {
+          "name": "structure_vae",
+          "type": "VAE",
+          "link": null,
+          "shape": 7
+        }
+      ],
+      "outputs": [
+        {
+          "name": "positive",
+          "type": "CONDITIONING",
+          "links": [
+            12
+          ]
+        },
+        {
+          "name": "latent",
+          "type": "LATENT",
+          "links": [
+            17
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "SolarRendererConditioning",
+        "aux_id": "SolarRenderer"
+      },
+      "widgets_values": [
+        "",
+        1344,
+        768,
+        158
+      ]
+    },
+    {
+      "id": 11,
+      "type": "KSamplerSelect",
+      "pos": [
+        2390.0,
+        70.0
+      ],
+      "size": [
+        320.0,
+        94.0
+      ],
+      "flags": {},
+      "order": 12,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "SAMPLER",
+          "type": "SAMPLER",
+          "links": [
+            15
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "KSamplerSelect",
+        "cnr_id": "comfy-core"
+      },
+      "widgets_values": [
+        "lcm"
+      ],
+      "title": "KSamplerSelect"
+    },
+    {
+      "id": 12,
+      "type": "SolarRendererSigmas",
+      "pos": [
+        1130.0,
+        1602.0
+      ],
+      "size": [
+        320.0,
+        94.0
+      ],
+      "flags": {},
+      "order": 13,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "SIGMAS",
+          "type": "SIGMAS",
+          "links": [
+            16
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "SolarRendererSigmas",
+        "aux_id": "SolarRenderer"
+      },
+      "widgets_values": [
+        4
+      ],
+      "title": "Four-step sigmas"
+    },
+    {
+      "id": 13,
+      "type": "RandomNoise",
+      "pos": [
+        2390.0,
+        214.0
+      ],
+      "size": [
+        320.0,
+        120.0
+      ],
+      "flags": {},
+      "order": 14,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "NOISE",
+          "type": "NOISE",
+          "links": [
+            13
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "RandomNoise",
+        "cnr_id": "comfy-core"
+      },
+      "widgets_values": [
+        42,
+        "randomize"
+      ],
+      "title": "RandomNoise"
+    },
+    {
+      "id": 14,
+      "type": "BasicGuider",
+      "pos": [
+        2390.0,
+        384.0
+      ],
+      "size": [
+        320.0,
+        90.0
+      ],
+      "flags": {},
+      "order": 15,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 11
+        },
+        {
+          "name": "conditioning",
+          "type": "CONDITIONING",
+          "link": 12
+        }
+      ],
+      "outputs": [
+        {
+          "name": "GUIDER",
+          "type": "GUIDER",
+          "links": [
+            14
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "BasicGuider",
+        "cnr_id": "comfy-core"
+      },
+      "title": "BasicGuider"
+    },
+    {
+      "id": 15,
+      "type": "SamplerCustomAdvanced",
+      "pos": [
+        2750.0,
+        70.0
+      ],
+      "size": [
+        320.0,
+        156.0
+      ],
+      "flags": {},
+      "order": 16,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "noise",
+          "type": "NOISE",
+          "link": 13
+        },
+        {
+          "name": "guider",
+          "type": "GUIDER",
+          "link": 14
+        },
+        {
+          "name": "sampler",
+          "type": "SAMPLER",
+          "link": 15
+        },
+        {
+          "name": "sigmas",
+          "type": "SIGMAS",
+          "link": 16
+        },
+        {
+          "name": "latent_image",
+          "type": "LATENT",
+          "link": 17
+        }
+      ],
+      "outputs": [
+        {
+          "name": "output",
+          "type": "LATENT",
+          "links": [
+            18
+          ]
+        },
+        {
+          "name": "denoised_output",
+          "type": "LATENT",
+          "links": []
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "SamplerCustomAdvanced",
+        "cnr_id": "comfy-core"
+      },
+      "title": "SamplerCustomAdvanced"
+    },
+    {
+      "id": 16,
+      "type": "LTXVSeparateAVLatent",
+      "pos": [
+        3110.0,
+        70.0
+      ],
+      "size": [
+        320.0,
+        90.0
+      ],
+      "flags": {},
+      "order": 17,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "av_latent",
+          "type": "LATENT",
+          "link": 18
+        }
+      ],
+      "outputs": [
+        {
+          "name": "video_latent",
+          "type": "LATENT",
+          "links": [
+            19
+          ]
+        },
+        {
+          "name": "audio_latent",
+          "type": "LATENT",
+          "links": []
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "LTXVSeparateAVLatent",
+        "cnr_id": "comfy-core"
+      }
+    },
+    {
+      "id": 18,
+      "type": "VAEDecode",
+      "pos": [
+        3500.0,
+        70.0
+      ],
+      "size": [
+        320.0,
+        90.0
+      ],
+      "flags": {},
+      "order": 18,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "samples",
+          "type": "LATENT",
+          "link": 19
+        },
+        {
+          "name": "vae",
+          "type": "VAE",
+          "link": 20
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            21
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "VAEDecode",
+        "cnr_id": "comfy-core"
+      }
+    },
+    {
+      "id": 19,
+      "type": "CreateVideo",
+      "pos": [
+        3860.0,
+        70.0
+      ],
+      "size": [
+        320.0,
+        194.0
+      ],
+      "flags": {},
+      "order": 19,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 21
+        },
+        {
+          "name": "audio",
+          "type": "AUDIO",
+          "link": null,
+          "shape": 7
+        }
+      ],
+      "outputs": [
+        {
+          "name": "VIDEO",
+          "type": "VIDEO",
+          "links": [
+            22
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "CreateVideo",
+        "cnr_id": "comfy-core"
+      },
+      "widgets_values": [
+        24,
+        "auto",
+        "sRGB",
+        "none"
+      ]
+    },
+    {
+      "id": 20,
+      "type": "SaveVideo",
+      "pos": [
+        4220.0,
+        70.0
+      ],
+      "size": [
+        320.0,
+        172.0
+      ],
+      "flags": {},
+      "order": 20,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "video",
+          "type": "VIDEO",
+          "link": 22
+        }
+      ],
+      "outputs": [
+        {
+          "name": "video",
+          "type": "VIDEO",
+          "links": []
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "SaveVideo",
+        "cnr_id": "comfy-core"
+      },
+      "widgets_values": [
+        "KittyOpenStudio/solar-render",
+        "auto",
+        "auto",
+        "auto"
+      ]
+    },
+    {
+      "id": 23,
+      "type": "Note",
+      "pos": [
+        0.0,
+        -170
+      ],
+      "size": [
+        420,
+        130
+      ],
+      "flags": {},
+      "order": 21,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [],
+      "properties": {},
+      "widgets_values": [
+        "Support Druid Cat on Patreon: https://www.patreon.com/c/AiDruid\nTutorials, workflows & exclusive content.\n\nWorkflow by AI Druid Cat · Kitty Open Studio (MIT)"
+      ],
+      "color": "#8B4513",
+      "bgcolor": "#CD853F"
+    }
+  ],
+  "links": [
+    [
+      1,
+      1,
+      0,
+      2,
+      0,
+      "MODEL"
+    ],
+    [
+      2,
+      2,
+      0,
+      3,
+      0,
+      "MODEL"
+    ],
+    [
+      3,
+      3,
+      0,
+      21,
+      0,
+      "MODEL"
+    ],
+    [
+      4,
+      21,
+      0,
+      4,
+      0,
+      "MODEL"
+    ],
+    [
+      5,
+      7,
+      0,
+      8,
+      0,
+      "VIDEO"
+    ],
+    [
+      6,
+      5,
+      0,
+      10,
+      0,
+      "CLIP"
+    ],
+    [
+      7,
+      6,
+      0,
+      10,
+      1,
+      "VAE"
+    ],
+    [
+      8,
+      8,
+      0,
+      10,
+      2,
+      "IMAGE"
+    ],
+    [
+      9,
+      22,
+      0,
+      10,
+      3,
+      "STRING"
+    ],
+    [
+      10,
+      9,
+      0,
+      10,
+      4,
+      "IMAGE"
+    ],
+    [
+      11,
+      4,
+      0,
+      14,
+      0,
+      "MODEL"
+    ],
+    [
+      12,
+      10,
+      0,
+      14,
+      1,
+      "CONDITIONING"
+    ],
+    [
+      13,
+      13,
+      0,
+      15,
+      0,
+      "NOISE"
+    ],
+    [
+      14,
+      14,
+      0,
+      15,
+      1,
+      "GUIDER"
+    ],
+    [
+      15,
+      11,
+      0,
+      15,
+      2,
+      "SAMPLER"
+    ],
+    [
+      16,
+      12,
+      0,
+      15,
+      3,
+      "SIGMAS"
+    ],
+    [
+      17,
+      10,
+      1,
+      15,
+      4,
+      "LATENT"
+    ],
+    [
+      18,
+      15,
+      0,
+      16,
+      0,
+      "LATENT"
+    ],
+    [
+      19,
+      16,
+      0,
+      18,
+      0,
+      "LATENT"
+    ],
+    [
+      20,
+      6,
+      0,
+      18,
+      1,
+      "VAE"
+    ],
+    [
+      21,
+      18,
+      0,
+      19,
+      0,
+      "IMAGE"
+    ],
+    [
+      22,
+      19,
+      0,
+      20,
+      0,
+      "VIDEO"
+    ]
+  ],
+  "groups": [
+    {
+      "id": 1,
+      "title": "Step 1 - Load Models",
+      "bounding": [
+        0.0,
+        0,
+        1100.0,
+        590.0
+      ],
+      "color": "#88A",
+      "font_size": 28,
+      "flags": {}
+    },
+    {
+      "id": 2,
+      "title": "Step 2 - Your Inputs",
+      "bounding": [
+        1110.0,
+        0,
+        440.0,
+        1756.0
+      ],
+      "color": "#8A8",
+      "font_size": 28,
+      "flags": {}
+    },
+    {
+      "id": 3,
+      "title": "Step 3 - Prepare & Condition",
+      "bounding": [
+        1560.0,
+        0,
+        800.0,
+        672.0
+      ],
+      "color": "#a1309b",
+      "font_size": 28,
+      "flags": {}
+    },
+    {
+      "id": 4,
+      "title": "Step 4 - Generate",
+      "bounding": [
+        2370.0,
+        0,
+        1100.0,
+        534.0
+      ],
+      "color": "#8AA",
+      "font_size": 28,
+      "flags": {}
+    },
+    {
+      "id": 5,
+      "title": "Step 5 - Decode & Save",
+      "bounding": [
+        3480.0,
+        0,
+        1100.0,
+        324.0
+      ],
+      "color": "#3f789e",
+      "font_size": 28,
+      "flags": {}
+    }
+  ],
+  "config": {},
+  "extra": {
+    "ds": {
+      "scale": 0.55,
+      "offset": [
+        60.0,
+        230
+      ]
+    }
+  },
+  "version": 0.4
+}

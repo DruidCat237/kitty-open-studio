@@ -1,0 +1,7 @@
+line-length = 130
+target-version = "py310"
+
+[lint]
+select = ["E", "F", "W", "B"]
+# long prompt strings and regexes are data; `l` for a litegraph link reads fine here
+ignore = ["E501", "E741", "B905"]

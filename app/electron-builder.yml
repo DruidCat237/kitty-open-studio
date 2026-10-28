@@ -1,0 +1,79 @@
+appId: io.github.druidcat237.kitty-open-studio
+productName: Kitty Open Studio
+copyright: Copyright 2026 Kitty Open Studio contributors
+
+directories:
+  output: dist-installer
+
+# Electron-specific files (inside asar)
+asar: true
+asarUnpack:
+  - "**/*.node"
+
+files:
+  - dist-electron/**/*
+  - assets/**/*
+  - "!node_modules"
+
+# Next.js standalone app (outside asar — filesystem access required)
+extraResources:
+  # Standalone server + minimal node_modules
+  - from: ".next/standalone"
+    to: "nextapp"
+    filter:
+      - "**/*"
+      - "!media"
+      - "!media/**"
+      - "!local-media"
+      - "!local-media/**"
+  # Static assets (not included in standalone by default)
+  - from: ".next/static"
+    to: "nextapp/.next/static"
+    filter:
+      - "**/*"
+  # Public files
+  - from: "public"
+    to: "nextapp/public"
+    filter:
+      - "**/*"
+  # i18n messages
+  - from: "messages"
+    to: "nextapp/messages"
+    filter:
+      - "**/*"
+  # Native FFmpeg binary for video transcoding
+  - from: "node_modules/ffmpeg-static-electron/bin/win/x64"
+    to: "ffmpeg"
+    filter:
+      - "ffmpeg.exe"
+  # MCP stdio bridge for Claude Desktop (node mcp/kitty-mcp-stdio.mjs)
+  - from: "mcp"
+    to: "mcp"
+    filter:
+      - "**/*"
+
+win:
+  target:
+    - target: nsis
+      arch: [x64]
+  icon: assets/icon.png
+  artifactName: "KittyOpenStudio-Setup-${version}.exe"
+
+linux:
+  target:
+    - target: AppImage
+      arch: [x64]
+  icon: assets/icon.png
+  category: Video
+  artifactName: "KittyOpenStudio-${version}.AppImage"
+
+nsis:
+  oneClick: false
+  perMachine: false
+  allowToChangeInstallationDirectory: true
+  createDesktopShortcut: true
+  createStartMenuShortcut: true
+  shortcutName: "Kitty Open Studio"
+  include: build/installer.nsh
+  installerSidebar: build/installerSidebar.bmp
+  uninstallerSidebar: build/installerSidebar.bmp

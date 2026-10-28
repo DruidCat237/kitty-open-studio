@@ -1,0 +1,42 @@
+# Kitty Open Studio backend image. Run everything from this folder:
+#   docker buildx bake --push     build the image and push it (tags and options: docker-bake.hcl)
+#   docker compose up -d          run it on this machine's GPU: ComfyUI :3020, model installer :7861, JupyterLab :8888
+# The first start prepares ComfyUI, the node packs and the Python venv in the "kitty-workspace" Docker volume
+# (10-20 minutes, once). Models go to ./models next to this file, so they are easy to reuse.
+# Settings: copy .env.example to .env.
+services:
+  kitty-backend:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+      args:
+        KITTY_VERSION: ${VERSION:-0.1.1}
+    image: ${IMAGE:-druidcat/kitty-open-studio}:${VERSION:-0.1.1}
+    env_file:
+      - path: .env
+        required: false
+    environment:
+      MODE: ${MODE:-pod}
+      # The ports below only listen on this machine, so JupyterLab can skip the login here.
+      JUPYTER_DISABLE_AUTH: ${JUPYTER_DISABLE_AUTH:-true}
+    ports:
+      - "127.0.0.1:3020:3020"
+      - "127.0.0.1:7861:7861"
+      - "127.0.0.1:8888:8888"
+    volumes:
+      # ComfyUI, node packs, the venv: a Docker volume (fast, keeps the venv's symlinks, also on Windows).
+      - kitty-workspace:/workspace
+      # The models: a normal folder here.
+      - ./models:/workspace/ComfyUI/models
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+    shm_size: "8gb"
+    restart: unless-stopped
+
+volumes:
+  kitty-workspace:

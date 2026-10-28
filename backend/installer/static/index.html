@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kitty Open Studio · Model installer</title>
+<link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+<header class="top">
+  <div class="brand">
+    <span class="logo" aria-hidden="true">🐾</span>
+    <div>
+      <h1>Kitty Open Studio <span class="muted">model installer</span></h1>
+      <p class="muted">Pick what you want to create. Only the missing files are downloaded, straight to your volume.</p>
+    </div>
+  </div>
+  <div class="badges">
+    <span class="badge ok">100% open weights</span>
+    <span class="badge">Runs on your GPU</span>
+  </div>
+</header>
+
+<section id="setup" class="card setup hidden" role="status" aria-live="polite">
+  <div class="row between"><strong id="setup-title"></strong><span id="setup-step" class="muted"></span></div>
+  <p id="setup-message" class="muted"></p>
+  <ul id="setup-warnings" class="setup-warnings"></ul>
+</section>
+
+<section class="status" aria-label="Storage and settings">
+  <div class="card stat">
+    <div class="label">Models folder</div>
+    <div id="models-dir" class="value mono">…</div>
+    <div class="label">Free space</div>
+    <div id="free" class="value">…</div>
+  </div>
+  <div class="card stat">
+    <label class="label" for="profile">GPU profile</label>
+    <select id="profile">
+      <option value="24gb">24 GB (FP8 / smaller files)</option>
+      <option value="48gb">48 GB (default)</option>
+      <option value="80gb">80 GB (BF16 where available)</option>
+    </select>
+    <div class="label">Hugging Face token</div>
+    <div id="token" class="value">…</div>
+    <p id="gated" class="gated muted"></p>
+  </div>
+</section>
+
+<section aria-label="Presets">
+  <h2>Presets</h2>
+  <div id="presets" class="presets"></div>
+</section>
+
+<section aria-label="Models">
+  <div class="row between">
+    <h2>Models</h2>
+    <div class="row gap">
+      <input id="filter" type="search" placeholder="Filter models or workflows…" aria-label="Filter">
+      <button id="select-none" class="ghost" type="button">Clear selection</button>
+    </div>
+  </div>
+  <div id="groups"></div>
+</section>
+
+<section id="progress-panel" class="card hidden" aria-live="polite">
+  <div class="row between">
+    <h2>Downloads</h2>
+    <button id="cancel" class="ghost" type="button">Cancel</button>
+  </div>
+  <div id="overall" class="bar big"><span></span></div>
+  <p id="job-message" class="muted"></p>
+  <div id="files"></div>
+</section>
+
+<footer class="summary" aria-label="Selection summary">
+  <div class="summary-text">
+    <strong id="sum-count">0 models</strong>
+    <span id="sum-size">0 GB</span>
+    <span id="sum-volume" class="muted"></span>
+    <span id="sum-cost" class="muted"></span>
+    <span id="sum-space" class="space-warning hidden" role="status"></span>
+  </div>
+  <label class="toggle"><input id="only-missing" type="checkbox" checked> Only missing</label>
+  <button id="install" type="button" disabled>Install</button>
+</footer>
+
+<script src="/static/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,303 @@
+{
+  "schema_version": 1,
+  "about": "ComfyUI and the custom-node packs the curated workflows need. The Docker image checks out ComfyUI at `comfyui.ref` and clones every pack at its `ref`: the commits every workflow was validated against with tools/live (class-to-pack mapping, /prompt validation, the editor round trip). To update, bump the refs and run tools/live again. Extra packs can be added at runtime with CUSTOM_NODES.",
+  "comfyui": {
+    "repo": "https://github.com/Comfy-Org/ComfyUI",
+    "ref": "0b05cd8a3683cbf0c291b1472bb8b64da41de9ae",
+    "version": "0.42.0",
+    "validated": "2026-10-26",
+    "license": "GPL-3.0"
+  },
+  "packs": [
+    {
+      "id": "comfyui-manager",
+      "repo": "https://github.com/Comfy-Org/ComfyUI-Manager",
+      "ref": "7e1af9c202fbd0051df3da43572976acd12857dc",
+      "license": "GPL-3.0",
+      "pod_only": true,
+      "classes": []
+    },
+    {
+      "id": "rgthree-comfy",
+      "repo": "https://github.com/rgthree/rgthree-comfy",
+      "ref": "d7297b42f0fa78bec1c0411478f887423c249502",
+      "license": "MIT",
+      "classes": [
+        "Any Switch (rgthree)",
+        "Image Comparer (rgthree)",
+        "Power Lora Loader (rgthree)",
+        "Seed (rgthree)",
+        "Fast Groups Bypasser (rgthree)",
+        "Fast Groups Muter (rgthree)",
+        "Fast Bypasser (rgthree)",
+        "Mute / Bypass Repeater (rgthree)"
+      ]
+    },
+    {
+      "id": "comfyui-kjnodes",
+      "repo": "https://github.com/kijai/ComfyUI-KJNodes",
+      "ref": "37ca7aff7ed14dde6ba3c0b25713e21c18b28dcb",
+      "license": "GPL-3.0",
+      "classes": [
+        "DiffusionModelLoaderKJ",
+        "DifferentialDiffusionAdvanced",
+        "FloatConstant",
+        "GetImageRangeFromBatch",
+        "GetImageSizeAndCount",
+        "GetImagesFromBatchIndexed",
+        "GetLatentSizeAndCount",
+        "GrowMaskWithBlur",
+        "INTConstant",
+        "ImageBatchExtendWithOverlap",
+        "ImageConcatMulti",
+        "ImageResizeKJv2",
+        "LTX2AttentionTunerPatch",
+        "LTX2MemoryEfficientSageAttentionPatch",
+        "LTX2_NAG",
+        "LTXVChunkFeedForward",
+        "LTXVImgToVideoInplaceKJ",
+        "ModelMemoryUsageFactorOverride",
+        "ModelPassThrough",
+        "ModelPatchTorchSettings",
+        "PathchSageAttentionKJ",
+        "ResizeMask",
+        "ScheduledCFGGuidance",
+        "VAELoaderKJ",
+        "GetNode",
+        "SetNode"
+      ]
+    },
+    {
+      "id": "comfyui-wanvideowrapper",
+      "repo": "https://github.com/kijai/ComfyUI-WanVideoWrapper",
+      "ref": "088128b224242e110d3906c6750e9a3a348a659b",
+      "license": "Apache-2.0",
+      "classes": [
+        "DownloadAndLoadWav2VecModel",
+        "MultiTalkModelLoader",
+        "MultiTalkWav2VecEmbeds",
+        "NormalizeAudioLoudness",
+        "WanVideoBlockSwap",
+        "WanVideoClipVisionEncode",
+        "WanVideoDecode",
+        "WanVideoEncode",
+        "WanVideoImageResizeToClosest",
+        "WanVideoImageToVideoMultiTalk",
+        "WanVideoLoraSelect",
+        "WanVideoLoraSelectMulti",
+        "WanVideoModelLoader",
+        "WanVideoPassImagesFromSamples",
+        "WanVideoSampler",
+        "WanVideoTextEmbedBridge",
+        "WanVideoTextEncodeCached",
+        "WanVideoTorchCompileSettings",
+        "WanVideoVAELoader",
+        "Wav2VecModelLoader"
+      ]
+    },
+    {
+      "id": "comfyui-melbandroformer",
+      "repo": "https://github.com/kijai/ComfyUI-MelBandRoFormer",
+      "ref": "92c86854e6654f4aacc97484471af95c98ea16d4",
+      "license": "none",
+      "classes": [
+        "MelBandRoFormerModelLoader",
+        "MelBandRoFormerSampler"
+      ]
+    },
+    {
+      "id": "comfyui-videohelpersuite",
+      "repo": "https://github.com/Kosinkadink/ComfyUI-VideoHelperSuite",
+      "ref": "4d907bee61e92c2e65af3bd6383a4e4d356126d1",
+      "license": "GPL-3.0",
+      "classes": [
+        "VHS_LoadVideo",
+        "VHS_LoadAudioUpload",
+        "VHS_SelectEveryNthImage",
+        "VHS_VideoCombine",
+        "VHS_VideoInfoLoaded"
+      ]
+    },
+    {
+      "id": "comfyui-gguf",
+      "repo": "https://github.com/city96/ComfyUI-GGUF",
+      "ref": "6ea2651e7df66d7585f6ffee804b20e92fb38b8a",
+      "license": "Apache-2.0",
+      "classes": [
+        "UnetLoaderGGUF"
+      ]
+    },
+    {
+      "id": "comfyui-frame-interpolation",
+      "repo": "https://github.com/Fannovel16/ComfyUI-Frame-Interpolation",
+      "ref": "26545cc2dd95bc3d27f056016300673bdeee78f5",
+      "license": "MIT",
+      "install": "python install.py",
+      "classes": [
+        "RIFE VFI"
+      ]
+    },
+    {
+      "id": "comfyui_controlnet_aux",
+      "repo": "https://github.com/Fannovel16/comfyui_controlnet_aux",
+      "ref": "a587a4c1594524c1d2de5cd1a86cd868ff448e1c",
+      "license": "Apache-2.0",
+      "classes": [
+        "DWPreprocessor"
+      ]
+    },
+    {
+      "id": "comfyui-seedvr2-videoupscaler",
+      "repo": "https://github.com/numz/ComfyUI-SeedVR2_VideoUpscaler",
+      "ref": "4490bd1f482e026674543386bb2a4d176da245b9",
+      "license": "Apache-2.0",
+      "classes": [
+        "SeedVR2LoadDiTModel",
+        "SeedVR2LoadVAEModel",
+        "SeedVR2VideoUpscaler",
+        "SeedVR2TorchCompileSettings"
+      ]
+    },
+    {
+      "id": "comfyui-flashvsr-ultra-fast",
+      "repo": "https://github.com/lihaoyun6/ComfyUI-FlashVSR_Ultra_Fast",
+      "ref": "4820b3f02347bddcbbb9a5a85ab7638fe976366e",
+      "license": "GPL-3.0",
+      "classes": [
+        "FlashVSRNode"
+      ]
+    },
+    {
+      "id": "comfyui-nvidia-rtx-nodes",
+      "repo": "https://github.com/Comfy-Org/Nvidia_RTX_Nodes_ComfyUI",
+      "ref": "38d790ded00650681fa3645362efe28c8560cf40",
+      "license": "Apache-2.0",
+      "license_note": "nvidia-vfx is free to use on NVIDIA RTX GPUs, from pypi.nvidia.com; INSTALL_NVIDIA_RTX=false leaves both out",
+      "proprietary_runtime": "nvidia-vfx",
+      "pip_args": [
+        "--extra-index-url",
+        "https://pypi.nvidia.com"
+      ],
+      "classes": [
+        "RTXVideoSuperResolution"
+      ]
+    },
+    {
+      "id": "comfyui-easy-use",
+      "repo": "https://github.com/yolain/ComfyUI-Easy-Use",
+      "ref": "b0b47ca1372117fce575d9e744655344ebff6bef",
+      "license": "GPL-3.0",
+      "classes": [
+        "easy cleanGpuUsed",
+        "easy forLoopEnd",
+        "easy forLoopStart",
+        "easy showAnything"
+      ]
+    },
+    {
+      "id": "comfyui-layerstyle",
+      "repo": "https://github.com/chflame163/ComfyUI_LayerStyle",
+      "ref": "51977b27869af9369e3d11a75d6fe8eb706f9821",
+      "license": "MIT",
+      "classes": [
+        "LayerUtility: ImageScaleByAspectRatio V2",
+        "LayerUtility: PurgeVRAM",
+        "LayerUtility: PurgeVRAM V2"
+      ]
+    },
+    {
+      "id": "comfyroll",
+      "repo": "https://github.com/Suzie1/ComfyUI_Comfyroll_CustomNodes",
+      "ref": "d78b780ae43fcf8c6b7c6505e6ffb4584281ceca",
+      "license": "none",
+      "classes": [
+        "CR SDXL Aspect Ratio",
+        "CR Seed",
+        "CR Upscale Image"
+      ]
+    },
+    {
+      "id": "res4lyf",
+      "repo": "https://github.com/ClownsharkBatwing/RES4LYF",
+      "ref": "56e44755d866c87ff9cb4b6608c8e42155db6ecc",
+      "license": "AGPL-3.0",
+      "classes": [
+        "ClownScheduler",
+        "SigmasPreview"
+      ]
+    },
+    {
+      "id": "comfyui-custom-scripts",
+      "repo": "https://github.com/pythongosssss/ComfyUI-Custom-Scripts",
+      "ref": "609f3afaa74b2f88ef9ce8d939626065e3247469",
+      "license": "MIT",
+      "classes": [
+        "MathExpression|pysssss"
+      ]
+    },
+    {
+      "id": "comfyui-impact-pack",
+      "repo": "https://github.com/ltdrdata/ComfyUI-Impact-Pack",
+      "ref": "429d0159ad429e64d2b3916e6e7be9c22d025c3c",
+      "license": "GPL-3.0",
+      "classes": [
+        "ImpactInt"
+      ]
+    },
+    {
+      "id": "comfyui-qwenmultiangle",
+      "repo": "https://github.com/jtydhr88/ComfyUI-qwenmultiangle",
+      "ref": "bf8d032a36f1b78296568cda939418b88f0950b3",
+      "license": "MIT",
+      "classes": [
+        "QwenMultiangleCameraNode"
+      ]
+    },
+    {
+      "id": "h3-relay",
+      "repo": "https://github.com/akatz-ai/h3-relay",
+      "ref": "e2a7665b6eb8ea37a88c0de2c9c6b69a8f7c9220",
+      "license": "GPL-3.0",
+      "classes": [
+        "H3RelayAppendWindow",
+        "H3RelayApplyEditMask",
+        "H3RelayApplyHistory",
+        "H3RelayExpandMask",
+        "H3RelayFinishWindows",
+        "H3RelayPrepareSource",
+        "H3RelayRecoverMasks",
+        "H3RelaySamplingMemory",
+        "H3RelaySelectMask",
+        "H3RelayTextMemory",
+        "H3RelayWindowInputs",
+        "H3RelayWindowPlan"
+      ]
+    },
+    {
+      "id": "solarrenderer",
+      "repo": "https://github.com/Enderfga/SolarRenderer",
+      "ref": "41e136e64b30d4aa0095070ce055ff00ae90fe3b",
+      "license": "Apache-2.0",
+      "license_note": "the code; its LoRAs are under the MiniMax H3 Community License",
+      "classes": [
+        "SolarRendererLoraLoader",
+        "SolarRendererModel",
+        "SolarRendererConditioning",
+        "SolarRendererSigmas",
+        "SolarRendererFastAttention",
+        "SolarRendererPrompt"
+      ]
+    },
+    {
+      "id": "lightvae",
+      "repo": "https://github.com/ModelTC/LightVAE",
+      "ref": "38b0587d47df9188e3e05973265352962b20ada4",
+      "license": "none",
+      "install_mode": "lightvae",
+      "classes": [
+        "LightVAELoader"
+      ],
+      "dir": "ComfyUI-LightVAE"
+    }
+  ]
+}

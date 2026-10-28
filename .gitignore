@@ -1,0 +1,21 @@
+node_modules/
+.next/
+dist/
+dist-*/
+out/
+*.log
+.env
+.env.local
+*.safetensors
+*.ckpt
+*.pth
+*.gguf
+__pycache__/
+backend/docker/data/
+backend/docker/models/
+.pytest_cache/
+.ruff_cache/
+
+# private staging copies of the owner originals (never published)
+/sources/
+app/media/

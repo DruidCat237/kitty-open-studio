@@ -1,0 +1,143 @@
+{
+  "about": "One render per card from the RTX 5090 test (Runpod): the thumbnail and the job's wall-clock seconds, first run, model loading included. Cards with their own gpu were rendered on that GPU instead. The README gallery and the app's Studio use it.",
+  "gpu": "NVIDIA GeForce RTX 5090 (32 GB), Runpod",
+  "cards": {
+    "qwen-image-t2i": {
+      "thumb": "qwen-image-paris.jpg",
+      "seconds": 102
+    },
+    "flux3-klein": {
+      "thumb": "flux3-cafe.jpg",
+      "seconds": 7,
+      "gpu": "Runpod serverless GPU",
+      "gpu_full": "a Runpod serverless worker (warm, models loaded)"
+    },
+    "flux3-klein-edit": {
+      "thumb": "edit-flux-cat.jpg",
+      "seconds": 33,
+      "gpu": "RTX PRO 4500",
+      "gpu_full": "NVIDIA RTX PRO 4500 Blackwell (32 GB), Runpod"
+    },
+    "qwen-image-edit": {
+      "thumb": "edit-qwen-cat.jpg",
+      "seconds": 105
+    },
+    "firered-edit": {
+      "thumb": "edit-firered-cat.jpg",
+      "seconds": 195
+    },
+    "qwen-image-inpaint": {
+      "thumb": "edit-qwen-inpaint.jpg",
+      "seconds": 420
+    },
+    "qwen-camera-angle": {
+      "thumb": "edit-camera-angle.jpg",
+      "seconds": 186
+    },
+    "qwen-camera-multi-angle": {
+      "thumb": "multi-angle.jpg",
+      "seconds": 390
+    },
+    "ltx25-t2v": {
+      "thumb": "ltx-t2v-beach.webp",
+      "seconds": 171
+    },
+    "ltx25-i2v": {
+      "thumb": "ltx-i2v-selfie.webp",
+      "seconds": 191
+    },
+    "ltx25-flf": {
+      "thumb": "ltx-flf-cat.webp",
+      "seconds": 189
+    },
+    "ltx25-v2v-upscale": {
+      "thumb": "up-ltx-v2v.webp",
+      "seconds": 264
+    },
+    "h3-i2v": {
+      "thumb": "h3-i2v-cafe.webp",
+      "seconds": 599
+    },
+    "h3-r2v": {
+      "thumb": "h3-r2v-park.webp",
+      "seconds": 302
+    },
+    "fasth3-omni": {
+      "thumb": "fasth3-dance.webp",
+      "seconds": 310
+    },
+    "fasth3-omni-lightvae": {
+      "thumb": "fasth3-talk.webp",
+      "seconds": 316
+    },
+    "wan22-flf": {
+      "thumb": "wan-flf-tokyo.webp",
+      "seconds": 357
+    },
+    "wan22-i2v-fast": {
+      "thumb": "wan-i2v-yacht.webp",
+      "seconds": 501
+    },
+    "h3-talk": {
+      "thumb": "h3-talk.webp",
+      "seconds": 399
+    },
+    "infinitetalk": {
+      "thumb": "infinitetalk.webp",
+      "seconds": 359
+    },
+    "infinitetalk-v2v": {
+      "thumb": "infinitetalk-v2v.webp",
+      "seconds": 128
+    },
+    "h3-character-swap": {
+      "thumb": "swap-anime.webp",
+      "seconds": 344
+    },
+    "wan21-scail2-loop": {
+      "thumb": "scail2-loop.webp",
+      "seconds": 566
+    },
+    "solar-render": {
+      "thumb": "solar-street.webp",
+      "seconds": 591,
+      "app_thumb": "solar-street-app.webp"
+    },
+    "rtx-image-upscale": {
+      "thumb": "up-rtx.jpg",
+      "seconds": 17
+    },
+    "seedvr2-image-4k": {
+      "thumb": "up-seedvr2-4k.jpg",
+      "seconds": 112
+    },
+    "seedvr2-image": {
+      "thumb": "up-seedvr2.jpg",
+      "seconds": 28
+    },
+    "qwen-upscale": {
+      "thumb": "up-qwen.jpg",
+      "seconds": 190
+    },
+    "simple-upscale": {
+      "thumb": "up-simple.jpg",
+      "seconds": 6
+    },
+    "rtx-video-upscale": {
+      "thumb": "up-rtx-video.webp",
+      "seconds": 14
+    },
+    "seedvr2-video": {
+      "thumb": "up-seedvr2-video.webp",
+      "seconds": 187
+    },
+    "flashvsr-restore": {
+      "thumb": "up-flashvsr.webp",
+      "seconds": 54
+    },
+    "frame-interpolation": {
+      "thumb": "up-interp.webp",
+      "seconds": 47
+    }
+  }
+}
