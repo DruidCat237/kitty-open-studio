@@ -114,7 +114,7 @@ direct the app; nothing they do is needed to generate.
 ## Layout
 - [`app/`](app/) - the desktop and web app (Electron + Next.js + TypeScript): Studio cards, generation feed, timeline editor, MCP server.
 - [`backend/`](backend/) - curated ComfyUI workflows, model manifest, model installer, a small Docker image (ComfyUI, its venv and the models live on your volume) and Runpod job handler.
-- [`docs/`](docs/) - [Deploy on Runpod](docs/runpod.md) · [Docker image](docs/docker.md) · [S3 outputs](docs/s3.md) · [AI-assisted setup](docs/ai-assisted-setup.md) · [MCP for Claude and ChatGPT](docs/mcp.md) · [Workflows](docs/workflows.md) · [Models and licenses](docs/models.md) · [Third-party software](THIRD_PARTY.md)
+- [`docs/`](docs/) - [Deploy on Runpod](docs/runpod.md) · [Docker image](docs/docker.md) · [S3 outputs](docs/s3.md) · [AI-assisted setup](docs/ai-assisted-setup.md) · [MCP for Claude and ChatGPT](docs/mcp.md) · [Hosted demo link](docs/hosted-demo.md) · [Workflows](docs/workflows.md) · [Models and licenses](docs/models.md) · [Third-party software](THIRD_PARTY.md)
 
 ## Let your AI assistant set it up
 

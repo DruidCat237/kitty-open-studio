@@ -41,6 +41,31 @@ export function useBackend(): BackendConfig | null {
   );
 }
 
+/**
+ * A hosted-demo link (https://<app>/en?demo=<code>): the code becomes this browser's backend, and leaves the address
+ * bar at once so it does not end up in screenshots, history entries shared later or Referer headers.
+ */
+export function adoptDemoLink(): void {
+  try {
+    const url = new URL(window.location.href);
+    const code = url.searchParams.get("demo");
+    if (!code) return;
+    setBackend({ kind: "hosted", access: code });
+    url.searchParams.delete("demo");
+    window.history.replaceState(window.history.state, "", url.toString());
+  } catch {
+    /* no window (server render) */
+  }
+}
+
+let hostedCards: Promise<string[] | null> | undefined;
+
+/** The cards the hosted demo offers (null: all of them). */
+export function hostedWorkflowList(): Promise<string[] | null> {
+  hostedCards ??= fetch("/api/backend/hosted").then((r) => r.json()).then((d) => d?.workflows ?? null).catch(() => null);
+  return hostedCards;
+}
+
 export function isConfigured(): boolean {
   return isComplete(getBackend());
 }

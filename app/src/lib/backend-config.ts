@@ -4,7 +4,7 @@
 //   serverless a Runpod serverless endpoint on the same volume: endpoint id + API key
 // Shared by the browser (settings) and the Next.js API route that talks to the backend.
 
-export type BackendKind = "pod" | "local" | "serverless";
+export type BackendKind = "pod" | "local" | "serverless" | "hosted";
 
 export interface BackendConfig {
   kind: BackendKind;
@@ -18,6 +18,8 @@ export interface BackendConfig {
   /** serverless with Runpod's volume S3 (no presigned links): the app fetches s3:// results with these keys */
   s3AccessKey?: string;
   s3SecretKey?: string;
+  /** hosted: the access code from the demo link (the server holds the endpoint and its keys) */
+  access?: string;
   /** "all" or "open-weights" (the handler then hides the NVIDIA RTX cards) */
   profile?: string;
 }
@@ -35,6 +37,7 @@ export function normalizePodUrl(value: string): string {
 
 export function backendLabel(cfg: BackendConfig | null): string {
   if (!cfg) return "No backend";
+  if (cfg.kind === "hosted") return "Demo GPU";
   if (cfg.kind === "serverless") return `Serverless ${cfg.endpointId ?? ""}`.trim();
   if (cfg.kind === "local") return "Local Docker";
   const m = cfg.url?.match(/^https?:\/\/([a-z0-9]+)-7861/i);
@@ -43,6 +46,7 @@ export function backendLabel(cfg: BackendConfig | null): string {
 
 export function isComplete(cfg: BackendConfig | null): cfg is BackendConfig {
   if (!cfg) return false;
+  if (cfg.kind === "hosted") return Boolean(cfg.access);
   return cfg.kind === "serverless" ? Boolean(cfg.endpointId && cfg.apiKey) : Boolean(cfg.url);
 }
 

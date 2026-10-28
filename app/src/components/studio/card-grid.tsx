@@ -1,11 +1,11 @@
 "use client";
 
 // The card gallery: every workflow as a tile with the render it made on the showcase GPU.
-import { useBackend } from "@/lib/backend";
+import { hostedWorkflowList, useBackend } from "@/lib/backend";
 import { BADGE_LABELS, CARDS, type Card, formatSeconds, renderedOn, usedCategories } from "@/lib/catalog";
 import { cn } from "@/lib/utils";
 import { ClockIcon, SearchIcon, ZapIcon } from "lucide-react";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 const CATEGORY_TINT: Record<string, string> = {
   image: "from-sky-500 to-cyan-400",
@@ -81,13 +81,21 @@ export function useCardFilter() {
   const [category, setCategory] = useState<string>("all");
   const [query, setQuery] = useState("");
   // the "Open weights only" backend setting also hides the cards that need NVIDIA's closed RTX SDK
-  const openOnly = useBackend()?.profile === "open-weights";
+  const backend = useBackend();
+  const openOnly = backend?.profile === "open-weights";
+  // the hosted demo offers only the cards its endpoint has the models for
+  const [demoCards, setDemoCards] = useState<string[] | null>(null);
+  useEffect(() => {
+    if (backend?.kind === "hosted") hostedWorkflowList().then(setDemoCards);
+    else setDemoCards(null);
+  }, [backend?.kind]);
   const cards = useMemo(() => {
     const q = query.trim().toLowerCase();
     return CARDS.filter((c) => (category === "all" || c.category === category)
       && !(openOnly && c.badges?.includes("nvidia-rtx"))
+      && !(demoCards && !demoCards.includes(c.id))
       && (!q || `${c.title} ${c.summary} ${(c.prompt_tags ?? []).join(" ")}`.toLowerCase().includes(q)));
-  }, [category, query, openOnly]);
+  }, [category, query, openOnly, demoCards]);
   return { category, setCategory, query, setQuery, cards };
 }
 

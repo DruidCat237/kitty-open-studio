@@ -8,6 +8,11 @@ export const dynamic = "force-dynamic";
  * Called from the renderer after Electron IPC saves the preference.
  */
 export async function POST(req: NextRequest) {
+  // Only the desktop app moves the media folder: never on a web deployment (the Host header can be forged, and a
+  // folder like / would let the media routes read any file, the server's environment included)
+  if (!process.env.ELECTRON_APP || process.env.KITTY_HOSTED_ACCESS) {
+    return new Response("Forbidden", { status: 403 });
+  }
   // Only allow from localhost (Electron app)
   const host = req.headers.get("host") || "";
   if (!host.startsWith("127.0.0.1") && !host.startsWith("localhost")) {

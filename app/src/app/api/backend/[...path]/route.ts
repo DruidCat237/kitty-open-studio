@@ -7,6 +7,7 @@
 //   GET  /api/backend/file?url=...           -> the output file (pod files, S3 links)
 import { type BackendConfig, type JobOutput, type JobState, type JobStatus } from "@/lib/backend-config";
 import { parseS3Url, s3Get } from "@/lib/s3-get";
+import { hostedAvailable, hostedConfig, hostedS3Allowed, hostedWorkflows, releaseHostedJob, takeHostedJob } from "@/lib/hosted";
 import { checkJobInput } from "@/lib/safety";
 import { NextResponse } from "next/server";
 
@@ -14,14 +15,20 @@ export const dynamic = "force-dynamic";
 
 const QUEUE = "https://api.runpod.ai/v2";
 
-function config(req: Request): BackendConfig {
+function config(req: Request): { cfg: BackendConfig; hosted: boolean } {
   const raw = req.headers.get("x-kitty-backend");
   if (!raw) throw new HttpError(400, "No backend configured: open Settings and pick a pod, local Docker or serverless.");
+  let cfg: BackendConfig;
   try {
-    return JSON.parse(Buffer.from(raw, "base64").toString("utf8")) as BackendConfig;
+    cfg = JSON.parse(Buffer.from(raw, "base64").toString("utf8")) as BackendConfig;
   } catch {
     throw new HttpError(400, "Backend settings are unreadable; save them again in Settings.");
   }
+  if (cfg.kind !== "hosted") return { cfg, hosted: false };
+  // the hosted demo: the browser only knows the access code, the keys stay in this server's environment
+  const own = hostedConfig(cfg.access);
+  if (!own) throw new HttpError(401, "This demo link is not valid (or the hosted demo is off).");
+  return { cfg: own, hosted: true };
 }
 
 class HttpError extends Error {
@@ -102,8 +109,11 @@ function normalize(cfg: BackendConfig, raw: any): JobStatus {
 
 async function handle(req: Request, path: string[], method: "GET" | "POST") {
   try {
-    const cfg = config(req);
     const [head, id, action] = path;
+    if (head === "hosted" && method === "GET") {
+      return NextResponse.json({ available: hostedAvailable(), workflows: hostedWorkflows() });
+    }
+    const { cfg, hosted } = config(req);
     if (head === "status" && method === "GET") {
       if (cfg.kind === "serverless") {
         const h = await call(cfg, "GET", "/health");
@@ -117,8 +127,21 @@ async function handle(req: Request, path: string[], method: "GET" | "POST") {
       // the same prompt filter as the Studio form, here for every caller (the editor, MCP, scripts)
       const refusal = checkJobInput(body.input);
       if (refusal) throw new HttpError(422, refusal);
+      if (hosted) {
+        const allowed = hostedWorkflows();
+        if (allowed && !allowed.includes(String(body.input?.workflow))) {
+          throw new HttpError(403, "This card is not part of the hosted demo.");
+        }
+        if (!takeHostedJob()) throw new HttpError(429, "The hosted demo has used today's renders; try again tomorrow.");
+      }
       const input = { ...body.input, ...(cfg.profile ? { profile: cfg.profile } : {}) };
-      const raw = await call(cfg, "POST", cfg.kind === "serverless" ? "/run" : "/api/jobs", { input });
+      let raw;
+      try {
+        raw = await call(cfg, "POST", cfg.kind === "serverless" ? "/run" : "/api/jobs", { input });
+      } catch (e) {
+        if (hosted) releaseHostedJob();
+        throw e;
+      }
       return NextResponse.json(normalize(cfg, raw));
     }
     if (head === "jobs" && id && !action && method === "GET") {
@@ -133,6 +156,8 @@ async function handle(req: Request, path: string[], method: "GET" | "POST") {
     }
     if (head === "file" && method === "GET") {
       const url = new URL(req.url).searchParams.get("url") || "";
+      // the demo endpoint leaves results on the volume's S3 (s3://); nothing else is fetched with its server
+      if (hosted && !url.startsWith("s3://")) throw new HttpError(403, "not a result of this demo");
       if (url.startsWith("s3://")) {
         if (!cfg.s3AccessKey || !cfg.s3SecretKey) throw new HttpError(401,
           "This result is on your volume's S3: add the S3 access key and secret in the backend settings to fetch it.");
@@ -142,6 +167,7 @@ async function handle(req: Request, path: string[], method: "GET" | "POST") {
         } catch (e) {
           throw new HttpError(400, (e as Error).message);
         }
+        if (hosted && !hostedS3Allowed(loc.endpoint, loc.key)) throw new HttpError(403, "not a result of this demo");
         const res = await s3Get(loc, cfg.s3AccessKey, cfg.s3SecretKey, AbortSignal.timeout(600_000));
         if (!res.ok || !res.body) throw new HttpError(res.status || 502, res.status === 403
           ? "S3 refused the keys (403): check the S3 access key and secret in the backend settings."

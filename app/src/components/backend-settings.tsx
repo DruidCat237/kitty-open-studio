@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { setBackend, testBackend, useBackend } from "@/lib/backend";
+import { adoptDemoLink, setBackend, testBackend, useBackend } from "@/lib/backend";
 import {
   type BackendConfig,
   type BackendKind,
@@ -46,6 +46,7 @@ function describe(cfg: BackendConfig, detail: any): string {
     const j = detail?.jobs ?? {};
     return `Endpoint answers: ${w.idle ?? 0} idle / ${w.running ?? 0} running workers, ${j.inQueue ?? 0} jobs queued.`;
   }
+  if (cfg.kind === "hosted") return "The demo GPU answers (a serverless endpoint run by the app's author).";
   if (detail?.setup && detail.setup.done === false) return `The pod is still preparing ComfyUI: ${detail.setup.step ?? "…"}`;
   const ready = Array.isArray(detail?.workflows) ? detail.workflows.filter((w: any) => w.ready).length : undefined;
   return detail?.comfyui?.ok
@@ -127,6 +128,12 @@ export function BackendSettingsDialog() {
         </div>
 
         <div className="flex flex-col gap-3 mt-2">
+          {draft.kind === "hosted" && (
+            <p className="rounded-md bg-fuchsia-500/10 p-2 text-xs text-fuchsia-200">
+              You opened a demo link: jobs run on the author&apos;s serverless GPU, with a daily limit. Pick another
+              option above to use your own backend.
+            </p>
+          )}
           {draft.kind === "pod" && (
             <>
               <div className="flex flex-col gap-1.5">
@@ -229,6 +236,8 @@ export function BackendPill() {
   const cfg = useBackend();
   const setOpen = useSettingsDialog((s) => s.setOpen);
   const [ok, setOk] = useState<boolean | null>(null);
+
+  useEffect(() => adoptDemoLink(), []);
 
   useEffect(() => {
     if (!isComplete(cfg)) {
